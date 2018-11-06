@@ -12,4 +12,7 @@ class MaterializeAsset extends AssetBundle
     public $css = [
         YII_ENV_DEV ? 'css/materialize.css' : 'css/materialize.min.css'
     ];
+    public $depends = [
+        'dmgpage\yii2materialize\MaterializeFontAsset'
+    ];
 }
