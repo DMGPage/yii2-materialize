@@ -1,5 +1,5 @@
 <?php
-namespace macgyer\yii2materializecss\assets;
+namespace dmgpage\yii2materialize;
 
 use yii\web\AssetBundle;
 
