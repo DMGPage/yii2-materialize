@@ -1,12 +1,12 @@
 <?php
-namespace yii\bootstrap4;
+namespace dmgpage\yii2materialize;
 
 use yii\web\AssetBundle;
 
 /**
  * Asset bundle for the Materialize css files.
  */
-class BootstrapAsset extends AssetBundle
+class MaterializeAsset extends AssetBundle
 {
     public $sourcePath = '@bower/materialize/dist';
     public $css = [
