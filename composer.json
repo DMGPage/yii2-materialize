@@ -1,0 +1,24 @@
+{
+    "name": "DMGPage/yii2-materialize",
+    "minimum-stability": "stable",
+    "description": "Integration of Material Design into Yii2",
+    "keywords": ["materialize", "yii2", "material design"],
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Dmitrijs Reinmanis",
+            "role": "Developer"
+        }
+    ],
+    "version": "0.0.1",
+    "require": {
+        "yiisoft/yii2": "~2.0",
+        "bower-asset/materialize": "1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "dmgpage\\yii2materialize\\": "src"
+        }
+    }
+}
