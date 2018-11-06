@@ -1,5 +1,5 @@
 {
-    "name": "DMGPage/yii2-materialize",
+    "name": "dmgpage/yii2-materialize",
     "minimum-stability": "stable",
     "description": "Integration of Material Design into Yii2",
     "keywords": ["materialize", "yii2", "material design"],
