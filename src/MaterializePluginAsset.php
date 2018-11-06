@@ -12,4 +12,7 @@ class MaterializePluginAsset extends AssetBundle
     public $js = [
         YII_ENV_DEV ? 'js/materialize.js' : 'js/materialize.min.js'
     ];
+    public $depends = [
+        'dmgpage\yii2materialize\MaterializeAsset',
+    ];
 }
