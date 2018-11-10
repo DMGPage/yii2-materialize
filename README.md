@@ -74,7 +74,5 @@ echo Html::endGridRow();
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
 
 <p align="center" style="background-color: #000">
-    <a href="http://www.dmgpage.lv/" target="_blank" rel="external">
-        <img src="http://www.dmgpage.lv/img/logo2.png">
-    </a>
+    <a href="http://www.dmgpage.lv/" target="_blank" rel="external"><h1>DMGPage</h1></a>
 </p>
