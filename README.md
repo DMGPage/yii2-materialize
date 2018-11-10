@@ -73,6 +73,22 @@ echo Html::beginGridRow();
 echo Html::endGridRow();
 ```
 
+### Blockquotes
+
+Blockquotes are mainly used to give emphasis to a quote or citation. You can also use these for some extra text hierarchy and emphasis. 
+
+```php
+use dmgpage\yii2materialize\helpers\Html;
+
+echo Html::blockquote('This is an example quotation that uses the blockquote tag.');
+
+// OR
+
+echo Html::beginBlockquote();
+    echo 'This is an example quotation that uses the blockquote tag.';
+echo Html::endBlockquote();
+```
+
 ## License
 
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
