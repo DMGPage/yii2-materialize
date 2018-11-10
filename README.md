@@ -50,3 +50,21 @@ public $depends = [
 ```
 
 Using Materialize through Yii asset manager allows you to minimize its resources and combine with your own resources when needed.
+
+### Grid
+
+The grid helps you layout your page in an ordered, easy fashion.
+
+```php
+    use dmgpage\yii2materialize\helpers\Html;
+
+    echo Html::beginGridRow();
+        echo  Html::gridCol('This div is 12-columns wide on all screen sizes', ['class' => 's12']);
+        echo Html::beginGridCol(['class' => 's6']);
+            echo '6-columns (one-half)';
+        echo Html::endGridCol();
+        echo Html::beginGridCol(['class' => 's6']);
+            echo '6-columns (one-half)';
+        echo Html::endGridCol();
+    echo Html::endGridRow();
+```
