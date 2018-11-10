@@ -26,3 +26,25 @@ or add
 ```
 
 to the require section of your `composer.json` file.
+
+## Usage
+
+To use Materialize CSS extensions in your app, integrate MaterializePluginAsset. There is two ways how to achieve this. Register the asset in the main layout:
+
+```php
+// @app/views/layouts/main.php
+
+\dmgpage\yii2materialize\assets\MaterializePluginAsset::register($this);
+// further code
+```
+
+or as a dependency in your app wide AppAsset.php
+
+```php
+// @app/assets/AppAsset.php
+
+public $depends = [
+    'dmgpage\yii2materialize\assets\MaterializePluginAsset',
+    // more dependencies
+];
+```
