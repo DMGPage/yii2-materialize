@@ -7,6 +7,7 @@
 </p>
 
 [![Build Status](https://travis-ci.org/DMGPage/yii2-materialize.svg?branch=master)](https://travis-ci.org/DMGPage/yii2-materialize)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 This is the Materialize CSS framework extensions for [Yii framework 2.0](http://www.yiiframework.com). [Materialize](https://materializecss.com/) is a modern responsive CSS framework based on Material Design by Google.
 
