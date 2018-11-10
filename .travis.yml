@@ -11,5 +11,9 @@ php:
 
 # Commands to be run before your environment runs.
 before_script:
+  - if find . -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
   - composer self-update
   - composer install --prefer-source --no-interaction
+
+script:
+
