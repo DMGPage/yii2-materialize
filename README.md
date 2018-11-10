@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/DMGPage/yii2-materialize.svg?branch=master)](https://travis-ci.org/DMGPage/yii2-materialize)
+
 <p align="center">
     <a href="https://materializecss.com/" target="_blank" rel="external">
         <img src="https://materializecss.com/res/materialize.svg" height="80px">
