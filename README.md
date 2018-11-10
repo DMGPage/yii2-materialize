@@ -48,3 +48,5 @@ public $depends = [
     // more dependencies
 ];
 ```
+
+Using Materialize through Yii asset manager allows you to minimize its resources and combine with your own resources when needed.
