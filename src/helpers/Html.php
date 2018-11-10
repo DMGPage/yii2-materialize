@@ -44,4 +44,54 @@ class Html extends BaseHtml
     {
         return static::endTag('div');
     }
+    
+    /**
+     * Generates a start tag for column.
+     *
+     * @param array $options the tag options in terms of name-value pairs. These will be rendered as
+     * the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+     * If a value is null, the corresponding attribute will not be rendered.
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     *
+     * @return string the generated start tag
+     *
+     * @see https://materializecss.com/grid.html
+     * @see endGridCol()
+     */
+    public static function beginGridCol($options = [])
+    {
+        static::addCssClass($options, 'col');
+        return static::beginTag('div', $options);
+    }
+    
+    /**
+     * Generates an end tag for column.
+     *
+     * @return string the generated end tag
+     * @see beginGridCol()
+     */
+    public static function endGridCol()
+    {
+        return static::endTag('div');
+    }
+    
+    /**
+     * Generates a complete HTML tag for column.
+     * 
+     * @param string $content the content to be enclosed between the start and end tags. It will not be HTML-encoded.
+     * If this is coming from end users, you should consider [[encode()]] it to prevent XSS attacks.
+     * @param array $options the HTML tag attributes (HTML options) in terms of name-value pairs.
+     * These will be rendered as the attributes of the resulting tag. The values will be HTML-encoded using [[encode()]].
+     * If a value is null, the corresponding attribute will not be rendered.
+     * See [[renderTagAttributes()]] for details on how attributes are being rendered.
+     *
+     * @return string the generated HTML tag
+     * @see beginGridCol()
+     * @see endGridCol()
+     */
+    public static function gridCol($content = '', $options = [])
+    {
+        static::addCssClass($options, 'col');
+        return static::tag('div', $content, $options);
+    }
 }
