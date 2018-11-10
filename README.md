@@ -75,6 +75,7 @@ echo Html::endGridRow();
 
 <p align="center">
     <a href="http://www.dmgpage.lv/" target="_blank" rel="external">
+[#f03c15] `#f03c15`
         <img src="http://www.dmgpage.lv/img/logo2.png">
     </a>
 </p>
