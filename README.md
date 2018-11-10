@@ -72,3 +72,11 @@ echo Html::endGridRow();
 ## License
 
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
+
+<p align="center">
+    <a href="http://www.dmgpage.lv/" target="_blank" rel="external">
+        <img src="http://www.dmg.local/img/logo2.png" height="80px">
+    </a>
+    <h1 align="center">Materialize Extension for Yii 2</h1>
+    <br>
+</p>
