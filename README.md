@@ -6,4 +6,4 @@
     <br>
 </p>
 
-This is the Materialize extension for Yii framework 2.0.
+This is the Materialize CSS framework extensions for [Yii framework 2.0](http://www.yiiframework.com). [Materialize](https://materializecss.com/) is a modern responsive CSS framework based on Material Design by Google.
