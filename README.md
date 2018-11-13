@@ -94,6 +94,8 @@ echo Html::endBlockquote();
 Badges can notify you that there are new or unread messages or notifications.
 
 ```php
+use dmgpage\yii2materialize\helpers\Html;
+
 echo Html::badge(1);
 echo Html::newBadge(2);
 echo Html::badge(3, ['class' => 'red']);
