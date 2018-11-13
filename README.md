@@ -89,6 +89,16 @@ echo Html::beginBlockquote();
 echo Html::endBlockquote();
 ```
 
+### Badges
+
+Badges can notify you that there are new or unread messages or notifications.
+
+```php
+echo Html::badge(1);
+echo Html::newBadge(2);
+echo Html::badge(3, ['class' => 'red']);
+```
+
 ## License
 
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
