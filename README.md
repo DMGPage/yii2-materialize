@@ -8,6 +8,7 @@
 
 [![Build Status](https://travis-ci.org/DMGPage/yii2-materialize.svg?branch=master)](https://travis-ci.org/DMGPage/yii2-materialize)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/DMGPage/yii2-materialize/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/DMGPage/yii2-materialize/?branch=master)
+[![Yii2](https://img.shields.io/badge/Powered_by-Yii_Framework-green.svg?style=flat)](http://www.yiiframework.com/)
 [![license](https://img.shields.io/badge/LICENCE-BSD--3--Clause-blue.svg)](https://packagist.org/packages/dmgpage/yii2-materialize)
 
 This is the Materialize CSS framework extensions for [Yii framework 2.0](http://www.yiiframework.com). [Materialize](https://materializecss.com/) is a modern responsive CSS framework based on Material Design by Google.
