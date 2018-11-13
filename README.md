@@ -78,8 +78,6 @@ echo Html::endGridRow();
 Blockquotes are mainly used to give emphasis to a quote or citation. You can also use these for some extra text hierarchy and emphasis. 
 
 ```php
-use dmgpage\yii2materialize\helpers\Html;
-
 echo Html::blockquote('This is an example quotation that uses the blockquote tag.');
 
 // OR
@@ -94,11 +92,14 @@ echo Html::endBlockquote();
 Badges can notify you that there are new or unread messages or notifications.
 
 ```php
-use dmgpage\yii2materialize\helpers\Html;
-
 echo Html::badge(1);
 echo Html::newBadge(2);
 echo Html::badge(3, ['class' => 'red']);
+```
+### Icons
+
+```php
+echo Html::icon('contacts', ['class' => 'tiny']);
 ```
 
 ## License
