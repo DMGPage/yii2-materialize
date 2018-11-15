@@ -139,6 +139,19 @@ echo Button::widget([
 ]);
 ```
 
+### Floating
+
+```php
+echo Button::widget([
+    'type' => \dmgpage\yii2materialize\helpers\Type::FLOATING,
+    'size' => \dmgpage\yii2materialize\helpers\Size::LARGE,
+    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
+    'icon' => ['name' => 'add'],
+    'label' => false,
+    'options' => ['class' => 'red']
+]);
+```
+
 ## Waves
 Waves is an external library that we've included in Materialize to allow us to create the ink effect outlined in Material Design.
 
