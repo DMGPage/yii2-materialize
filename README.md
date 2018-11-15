@@ -103,6 +103,49 @@ echo Html::badge(3, ['class' => 'red']);
 echo Html::icon('contacts', ['class' => 'tiny']);
 ```
 
+### Buttons
+
+There are 3 main button types described in material design. The raised button is a standard button that signify actions and seek to give depth to a mostly flat page. The floating circular action button is meant for very important functions. Flat buttons are usually used within elements that already have depth like cards or modals.
+
+#### Raised
+
+```php
+use dmgpage\yii2materialize\widgets\Button;
+use dmgpage\yii2materialize\helpers\Waves;
+use dmgpage\yii2materialize\helpers\Size;
+
+echo Button::widget(['waves' => Waves::LIGHT, 'size' => Size::SMALL]);
+```
+
+```php
+use dmgpage\yii2materialize\widgets\Button;
+use dmgpage\yii2materialize\helpers\Waves;
+use dmgpage\yii2materialize\helpers\Position;
+
+echo Button::widget([
+    'waves' => Waves::LIGHT,
+    'icon' => [
+        'name' => 'alarm',
+        'position' => Position::LEFT,
+        'options' =>  ['class' => 'red'],
+    ]
+]);
+```
+
+```php
+use dmgpage\yii2materialize\widgets\Button;
+use dmgpage\yii2materialize\helpers\Waves;
+use dmgpage\yii2materialize\helpers\Position;
+
+echo Button::widget([
+    'waves' => Waves::LIGHT,
+    'icon' => [
+        'name' => 'alarm',
+        'position' => Position::RIGHT
+    ]
+]);
+```
+
 ## License
 
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
