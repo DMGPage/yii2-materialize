@@ -152,6 +152,18 @@ echo Button::widget([
 ]);
 ```
 
+### Flat
+
+Flat buttons are used to reduce excessive layering. For example, flat buttons are usually used for actions within a card or modal so there aren't too many overlapping shadows.
+
+```php
+echo Button::widget([
+    'type' => \dmgpage\yii2materialize\helpers\Type::FLAT,
+    'waves' => \dmgpage\yii2materialize\helpers\Waves::TEAL,
+    'label' => 'Flat button'
+]);
+```
+
 ## Waves
 Waves is an external library that we've included in Materialize to allow us to create the ink effect outlined in Material Design.
 
