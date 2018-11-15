@@ -75,7 +75,7 @@ trait MaterializeWidgetTrait
         $view = $this->getView();
         MaterializePluginAsset::register($view);
 
-        if ($this->clientOptions !== false) {
+        if (!empty($this->clientOptions)) {
             //...
         }
 
