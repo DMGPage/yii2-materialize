@@ -91,7 +91,7 @@ class Button extends Widget
     public function init()
     {
         parent::init();
-        $this->clientOptions = false;
+        $this->clientOptions = [];
     }
 
     /**
