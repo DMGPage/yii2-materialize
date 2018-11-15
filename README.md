@@ -111,37 +111,30 @@ There are 3 main button types described in material design. The raised button is
 
 ```php
 use dmgpage\yii2materialize\widgets\Button;
-use dmgpage\yii2materialize\helpers\Waves;
-use dmgpage\yii2materialize\helpers\Size;
 
-echo Button::widget(['waves' => Waves::LIGHT, 'size' => Size::SMALL]);
+echo Button::widget([
+    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
+    'size' => \dmgpage\yii2materialize\helpers\Size::SMALL
+]);
 ```
 
 ```php
-use dmgpage\yii2materialize\widgets\Button;
-use dmgpage\yii2materialize\helpers\Waves;
-use dmgpage\yii2materialize\helpers\Position;
-
 echo Button::widget([
-    'waves' => Waves::LIGHT,
+    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
     'icon' => [
         'name' => 'alarm',
-        'position' => Position::LEFT,
+        'position' => \dmgpage\yii2materialize\helpers\Position::LEFT,
         'options' =>  ['class' => 'red'],
     ]
 ]);
 ```
 
 ```php
-use dmgpage\yii2materialize\widgets\Button;
-use dmgpage\yii2materialize\helpers\Waves;
-use dmgpage\yii2materialize\helpers\Position;
-
 echo Button::widget([
-    'waves' => Waves::LIGHT,
+    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
     'icon' => [
         'name' => 'alarm',
-        'position' => Position::RIGHT
+        'position' => \dmgpage\yii2materialize\helpers\Position::RIGHT
     ]
 ]);
 ```
