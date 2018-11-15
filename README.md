@@ -139,6 +139,20 @@ echo Button::widget([
 ]);
 ```
 
+## Waves
+Waves is an external library that we've included in Materialize to allow us to create the ink effect outlined in Material Design.
+
+```php
+echo Html::a(
+    'Url with waves',
+    '#',
+    Html::addWaves(
+        \dmgpage\yii2materialize\helpers\Waves::LIGHT,
+        ['class' => 'btn-large']
+    )
+);
+```
+
 ## License
 
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
