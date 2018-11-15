@@ -93,6 +93,15 @@ trait MaterializeWidgetTrait
     }
 
     /**
+     * Returns the ID of the widget.
+     *
+     * @param bool $autoGenerate whether to generate an ID if it is not set previously
+     * @return string ID of the widget.
+     * @see \yii\base\Widget::getId()
+     */
+    abstract public function getId($autoGenerate = true);
+
+    /**
      * @return \yii\web\View the view object that can be used to render views or view files.
      * @see \yii\base\Widget::getView()
      */
