@@ -114,27 +114,10 @@ use dmgpage\yii2materialize\widgets\Button;
 
 echo Button::widget([
     'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
-    'size' => \dmgpage\yii2materialize\helpers\Size::SMALL
-]);
-```
-
-```php
-echo Button::widget([
-    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
     'icon' => [
         'name' => 'alarm',
         'position' => \dmgpage\yii2materialize\helpers\Position::LEFT,
         'options' =>  ['class' => 'red'],
-    ]
-]);
-```
-
-```php
-echo Button::widget([
-    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
-    'icon' => [
-        'name' => 'alarm',
-        'position' => \dmgpage\yii2materialize\helpers\Position::RIGHT
     ]
 ]);
 ```
@@ -161,6 +144,18 @@ echo Button::widget([
     'type' => \dmgpage\yii2materialize\helpers\Type::FLAT,
     'waves' => \dmgpage\yii2materialize\helpers\Waves::TEAL,
     'label' => 'Flat button'
+]);
+```
+
+### Disabled
+
+This style can be applied to all button types
+
+```php
+echo Button::widget([
+    'size' => \dmgpage\yii2materialize\helpers\Size::LARGE,
+    'disabled' => true,
+    'label' => 'Disabled button'
 ]);
 ```
 
