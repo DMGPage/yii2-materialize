@@ -160,7 +160,7 @@ echo Button::widget([
 ```
 
 ## Waves
-Waves is an external library that we've included in Materialize to allow us to create the ink effect outlined in Material Design.
+Waves is an external library that included in Materialize to allow you to create the ink effect outlined in Material Design.
 
 ```php
 echo Html::a(
