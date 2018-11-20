@@ -111,12 +111,14 @@ There are 3 main button types described in material design. The raised button is
 
 ```php
 use dmgpage\yii2materialize\widgets\Button;
+use dmgpage\yii2materialize\helpers\Waves;
+use dmgpage\yii2materialize\helpers\Position;
 
 echo Button::widget([
-    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
+    'waves' => Waves::LIGHT,
     'icon' => [
         'name' => 'alarm',
-        'position' => \dmgpage\yii2materialize\helpers\Position::LEFT,
+        'position' => Position::LEFT,
         'options' =>  ['class' => 'red'],
     ]
 ]);
@@ -125,10 +127,15 @@ echo Button::widget([
 ### Floating
 
 ```php
+use dmgpage\yii2materialize\widgets\Button;
+use dmgpage\yii2materialize\helpers\Type;
+use dmgpage\yii2materialize\helpers\Size;
+use dmgpage\yii2materialize\helpers\Waves;
+
 echo Button::widget([
-    'type' => \dmgpage\yii2materialize\helpers\Type::FLOATING,
-    'size' => \dmgpage\yii2materialize\helpers\Size::LARGE,
-    'waves' => \dmgpage\yii2materialize\helpers\Waves::LIGHT,
+    'type' => Type::FLOATING,
+    'size' => Size::LARGE,
+    'waves' => Waves::LIGHT,
     'icon' => ['name' => 'add'],
     'label' => false,
     'options' => ['class' => 'red']
@@ -141,8 +148,8 @@ Flat buttons are used to reduce excessive layering. For example, flat buttons ar
 
 ```php
 echo Button::widget([
-    'type' => \dmgpage\yii2materialize\helpers\Type::FLAT,
-    'waves' => \dmgpage\yii2materialize\helpers\Waves::TEAL,
+    'type' => Type::FLAT,
+    'waves' => Waves::TEAL,
     'label' => 'Flat button'
 ]);
 ```
@@ -153,9 +160,25 @@ This style can be applied to all button types
 
 ```php
 echo Button::widget([
-    'size' => \dmgpage\yii2materialize\helpers\Size::LARGE,
+    'size' => Size::LARGE,
     'disabled' => true,
     'label' => 'Disabled button'
+]);
+```
+
+### Submit Button
+
+```php
+use dmgpage\yii2materialize\widgets\SubmitButton;
+use dmgpage\yii2materialize\helpers\Position;
+
+echo SubmitButton::widget([
+    'waves' => Waves::LIGHT,
+    'icon' => [
+        'name' => 'alarm',
+        'position' => Position::LEFT,
+        'options' => ['class' => 'red'],
+    ]
 ]);
 ```
 
@@ -163,11 +186,14 @@ echo Button::widget([
 Waves is an external library that included in Materialize to allow you to create the ink effect outlined in Material Design.
 
 ```php
+use dmgpage\yii2materialize\helpers\Html;
+use dmgpage\yii2materialize\helpers\Waves;
+
 echo Html::a(
     'Url with waves',
     '#',
     Html::addWaves(
-        \dmgpage\yii2materialize\helpers\Waves::LIGHT,
+        Waves::LIGHT,
         ['class' => 'btn-large']
     )
 );
