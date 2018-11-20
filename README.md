@@ -100,6 +100,7 @@ echo Html::badge(3, ['class' => 'red']);
 ### Icons
 
 ```php
+use dmgpage\yii2materialize\helpers\Html;
 use dmgpage\yii2materialize\helpers\Size;
 
 Html::icon('forum', ['class' => Size::TINY])
