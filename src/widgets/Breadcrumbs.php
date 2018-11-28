@@ -11,7 +11,9 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use dmgpage\yii2materialize\helpers\Html;
+use dmgpage\yii2materialize\helpers\Position;
+use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
 
 /**
  * Breadcrumbs displays a list of links indicating the position of the current page in the whole site hierarchy.
@@ -27,9 +29,13 @@ use yii\helpers\Html;
  *     'links' => [
  *         [
  *             'label' => 'Post Category',
- *             'url' => ['post-category/view', 'id' => 10]
+ *             'url' => ['post-category/view', 'id' => 10],
+ *             'target' => '_blank'
  *         ],
- *         ['label' => 'Sample Post', 'url' => ['post/edit', 'id' => 1]],
+ *         [
+ *             'label' => 'Sample Post',
+ *             'url' => ['post/edit', 'id' => 1]
+ *         ],
  *         'Edit',
  *     ],
  * ]);
@@ -65,6 +71,12 @@ class Breadcrumbs extends Widget
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $columnOptions = [];
+
+    /**
+     * @var string the type of breadcrumb to be rendered
+     * @see \dmgpage\yii2materialize\helpers\Type
+     */
+    public $type;
 
     /**
      * @var bool whether to HTML-encode the link labels.
@@ -139,6 +151,13 @@ class Breadcrumbs extends Widget
 
             $column = Html::tag('div', implode('', $links), $this->columnOptions);
             $wraper = Html::tag('div', $column, $this->wrapperOptions);
+
+            if (!empty($this->type)) {
+                Html::addCssClass($this->options, $this->type);
+                $view = $this->getView();
+                MaterializeExtraAsset::register($view);
+            }
+
             return Html::tag('nav', $wraper, $this->options);
         }
     }
@@ -160,8 +179,21 @@ class Breadcrumbs extends Widget
             throw new InvalidConfigException('The "label" element is required for each link.');
         }
 
+        // Add icon to label text
+        if (isset($link['icon'])) {
+            $iconName = ArrayHelper::getValue($link['icon'], 'name', null);
+            $iconOptions = ArrayHelper::getValue($link['icon'], 'options', []);
+
+            // Default position is left, because right does not work for breadcrumb
+            if (!isset($link['icon']['class'])) {
+                Html::addCssClass($iconOptions, Position::LEFT);
+            }
+
+            $label = Html::icon($iconName, $iconOptions) . $label;
+        }
+
         $options = $link;
-        unset($options['label'], $options['url']);
+        unset($options['label'], $options['url'], $options['icon']);
 
         if (!isset($options['class'])) {
             Html::addCssClass($options, 'breadcrumb');

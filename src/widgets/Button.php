@@ -44,7 +44,7 @@ class Button extends Widget
      * @var bool whether the label should be HTML-encoded.
      */
     public $encodeLabel = true;
-    
+
     /**
      * @var array the options for the optional icon.
      *
@@ -53,7 +53,7 @@ class Button extends Widget
      * ```php
      * [
      *     'name' => 'alarm',
-     *     'position' => Position::LEFT
+     *     'position' => Position::LEFT,
      *     'options' =>  ['class' => 'red'],
      * ]
      * ```
@@ -96,7 +96,7 @@ class Button extends Widget
 
     /**
      * Renders the widget.
-     * 
+     *
      * @return string the result of widget execution to be outputted.
      * @uses [[renderIcon]]
      */
@@ -151,7 +151,7 @@ class Button extends Widget
             if (!empty($position)) {
                 Html::addCssClass($options, $position);
             }
-            
+
             return Html::icon($name, $options);
         }
     }

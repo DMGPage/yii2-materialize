@@ -1,0 +1,72 @@
+/*!
+ * Materialize widget extra styling
+ *
+ * Copyright (c) 2018 Dmitrijs Reinmanis
+ * Licensed under BSD 3 (https://github.com/DMGPage/yii2-materialize/blob/master/LICENSE)
+ */
+
+nav.clean {
+    background: none;
+    box-shadow: none;
+}
+
+nav.clean .breadcrumb {
+    color: rgba(0,0,0,1);
+}
+
+nav.clean .breadcrumb:before {
+    color: rgba(0,0,0,0.7);
+}
+
+nav.flat .breadcrumb {
+    display: inline-block;
+    background-color: #0277bd;
+    padding-right: 1rem;
+    padding-left: 2.5rem;
+}
+
+nav.flat .breadcrumb::before {
+    margin: 0;
+    content: '';
+}
+
+nav.flat .breadcrumb:first-child {
+    padding-left: 1.6rem;
+}
+
+nav.flat .breadcrumb:last-child {
+    padding-right: 1.6rem;
+}
+
+nav.flat .breadcrumb:nth-child(odd) {
+    background-color: #01579b;
+}
+
+nav.flat .breadcrumb:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    width: 0; 
+    height: 0; 
+    border-top: 32px solid transparent;
+    border-bottom: 32px solid transparent;
+    border-left: 32px solid #01579b;
+    margin-left: 1rem;
+}
+
+nav.flat .breadcrumb:nth-child(even):after {
+    border-left-color: #0277bd;
+}
+
+nav.flat .breadcrumb:last-child:after {
+    border: 0;
+}
+
+nav.flat .breadcrumb:hover {
+    background-color: #0288d1;
+}
+
+nav.flat .breadcrumb:hover:after {
+    border-left-color: #0288d1;
+}
