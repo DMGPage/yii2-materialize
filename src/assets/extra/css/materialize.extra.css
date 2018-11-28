@@ -21,7 +21,6 @@ nav.clean .breadcrumb:before {
 nav.flat .breadcrumb {
     display: inline-block;
     background-color: #0277bd;
-    padding-right: 1rem;
     padding-left: 2.5rem;
 }
 
@@ -52,7 +51,6 @@ nav.flat .breadcrumb:after {
     border-top: 32px solid transparent;
     border-bottom: 32px solid transparent;
     border-left: 32px solid #01579b;
-    margin-left: 1rem;
 }
 
 nav.flat .breadcrumb:nth-child(even):after {
