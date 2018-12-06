@@ -5,6 +5,18 @@
  * Licensed under BSD 3 (https://github.com/DMGPage/yii2-materialize/blob/master/LICENSE)
  */
 
+nav.default .breadcrumb::before {
+    float: left;
+}
+
+nav.default .breadcrumb {
+    display: inline-block;
+}
+
+nav.default .breadcrumb i.material-icons {
+    margin-right: 5px;
+}
+
 nav.clean {
     background: none;
     box-shadow: none;
@@ -12,16 +24,26 @@ nav.clean {
 
 nav.clean .breadcrumb {
     color: rgba(0,0,0,1);
+    display: inline-block;
 }
 
 nav.clean .breadcrumb:before {
     color: rgba(0,0,0,0.7);
+    float: left;
+}
+
+nav.clean .breadcrumb i.material-icons {
+    margin-right: 5px;
 }
 
 nav.flat .breadcrumb {
     display: inline-block;
     background-color: #0277bd;
     padding-left: 2.5rem;
+}
+
+nav.flat .breadcrumb i.material-icons {
+    margin-right: 5px;
 }
 
 nav.flat .breadcrumb::before {

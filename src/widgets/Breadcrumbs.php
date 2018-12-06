@@ -7,12 +7,10 @@
 
 namespace dmgpage\yii2materialize\widgets;
 
-use Yii;
 use yii\base\InvalidConfigException;
-use yii\base\Widget;
+use yii\base\Widget as BaseWidget;
 use yii\helpers\ArrayHelper;
 use dmgpage\yii2materialize\helpers\Html;
-use dmgpage\yii2materialize\helpers\Position;
 use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
 
 /**
@@ -52,7 +50,7 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  * ]);
  * ```
  */
-class Breadcrumbs extends Widget
+class Breadcrumbs extends BaseWidget
 {
     /**
      * @var array the HTML attributes for the breadcrumb container tag.
@@ -99,7 +97,11 @@ class Breadcrumbs extends Widget
      * ```php
      * [
      *     'label' => 'label of the link',  // required
-     *     'url' => 'url of the link'      // optional, will be processed by Url::to()
+     *     'url' => 'url of the link',      // optional, will be processed by Url::to()
+     *     'icon' => [
+     *         'name' => 'home',
+     *         'options' =>  ['class' => 'red']
+     *     ]
      * ]
      * ```
      *
@@ -133,8 +135,8 @@ class Breadcrumbs extends Widget
             if (empty($this->homeLink)) {
                 $links[] = $this->renderItem(
                     [
-                        'label' => Yii::t('yii', 'Home'),
-                        'url' => Yii::$app->homeUrl
+                        'label' => \Yii::t('yii', 'Home'),
+                        'url' => \Yii::$app->homeUrl
                     ]
                 );
             } elseif (!isset($this->homeLink['render']) || $this->homeLink['render'] === true) {
@@ -181,15 +183,7 @@ class Breadcrumbs extends Widget
 
         // Add icon to label text
         if (isset($link['icon'])) {
-            $iconName = ArrayHelper::getValue($link['icon'], 'name', null);
-            $iconOptions = ArrayHelper::getValue($link['icon'], 'options', []);
-
-            // Default position is left, because right does not work for breadcrumb
-            if (!isset($link['icon']['class'])) {
-                Html::addCssClass($iconOptions, Position::LEFT);
-            }
-
-            $label = Html::icon($iconName, $iconOptions) . $label;
+            $label = $this->renderIcon($link['icon']) . $label;
         }
 
         $options = $link;
@@ -204,5 +198,36 @@ class Breadcrumbs extends Widget
         } else {
             return Html::tag('span', $label, $options) ;
         }
+    }
+
+    /**
+     * Renders an icon.
+     * Has issues on positioning: https://github.com/Dogfalo/materialize/issues/6224
+     *
+     * @param string|array $icon the options for the optional icon.
+     * @return string the rendered icon
+     * @throws \yii\base\InvalidConfigException if icon name is not specified
+     *
+     * @uses http://www.yiiframework.com/doc-2.0/yii-helpers-basearrayhelper.html#getValue()-detail
+     * @see Icon::run
+     */
+    protected function renderIcon($icon)
+    {
+        $html = '';
+
+        if (!empty($icon)) {
+            if (is_array($icon) && isset($icon['name'])) {
+                $iconName = ArrayHelper::getValue($icon, 'name', null);
+            } elseif (is_string($icon)) {
+                $iconName = $icon;
+            } else {
+                throw new InvalidConfigException('The icon name must be specified.');
+            }
+
+            $iconOptions = ArrayHelper::getValue($icon, 'options', []);
+            $html = Html::icon($iconName, $iconOptions);
+        }
+
+        return $html;
     }
 }
