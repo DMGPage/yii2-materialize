@@ -186,7 +186,7 @@ echo SubmitButton::widget([
 ]);
 ```
 
- 10. [Breadcrumbs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/waves.md)
+ 10. [Waves](https://github.com/DMGPage/yii2-materialize/blob/master/doc/waves.md)
  11. [Breadcrumbs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/breadcrumb/README.md)
 
 ## License
