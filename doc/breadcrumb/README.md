@@ -66,5 +66,36 @@ echo Breadcrumbs::widget([
     ],
 ]);
 ```
+## Flat
+Breadcrumb with flat colors and working icons.
 
+![Flat breadcrumb](https://github.com/DMGPage/yii2-materialize/blob/master/doc/breadcrumb/flat.png)
+
+```php
+use dmgpage\yii2materialize\widgets\Breadcrumbs;
+use dmgpage\yii2materialize\helpers\BreadcrumbType;
+
+echo Breadcrumbs::widget([
+    'type' => BreadcrumbType::FLAT,
+    'homeLink' => [
+        'label' => 'Home',
+        'url' => '/',
+        'icon' => 'home'
+    ],
+    'links' => [
+        [
+            'label' => 'Post Category',
+            'url' => ['post-category/view', 'id' => 10],
+            'target' => '_blank',
+            'icon' => 'create'
+        ],
+        [
+            'label' => 'Sample Post',
+            'url' => ['post/edit', 'id' => 1],
+            'icon' => 'reorder'
+        ],
+        'Edit',
+    ],
+]);
+```
 
