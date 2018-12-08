@@ -1,3 +1,4 @@
+
 <p align="center">
     <a href="https://materializecss.com/" target="_blank" rel="external">
         <img src="https://materializecss.com/res/materialize.svg" height="80px">
@@ -202,6 +203,9 @@ echo Html::a(
 );
 ```
 
+ **1. [Breadcrumbs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/breadcrumb/README.md)**
+
+
 ## License
 
 **yii2-materialize** is released under the BSD-3-Clause License. See the bundled `LICENSE.md` for details.
@@ -212,3 +216,4 @@ echo Html::a(
         <img src="http://www.dmgpage.lv/img/logo-black.png">
     </a>
 </p>
+
