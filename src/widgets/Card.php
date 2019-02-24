@@ -85,7 +85,7 @@ class Card extends BaseWidget
     public function run()
     {
         $html = Html::endTag('div');
-        $html = Html::endTag('div');
+        $html .= Html::endTag('div');
         $html .= Html::endGridCol();
         $html .= Html::endGridRow();
 
