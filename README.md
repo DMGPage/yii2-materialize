@@ -98,15 +98,8 @@ echo Html::badge(1);
 echo Html::newBadge(2);
 echo Html::badge(3, ['class' => 'red']);
 ```
-### Icons
 
-```php
-use dmgpage\yii2materialize\helpers\Html;
-use dmgpage\yii2materialize\helpers\Size;
-
-Html::icon('forum', ['class' => Size::TINY])
-```
-
+ 4. [Icons](https://github.com/DMGPage/yii2-materialize/blob/master/doc/icons.md)
  5. [Buttons](https://github.com/DMGPage/yii2-materialize/blob/master/doc/buttons.md)
  6. [Waves](https://github.com/DMGPage/yii2-materialize/blob/master/doc/waves.md)
  7. [Breadcrumbs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/breadcrumb/README.md)
