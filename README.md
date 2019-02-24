@@ -89,7 +89,7 @@ echo Html::beginBlockquote();
 echo Html::endBlockquote();
 ```
 
- 3. [Icons](https://github.com/DMGPage/yii2-materialize/blob/master/doc/badges.md)
+ 3. [Badges](https://github.com/DMGPage/yii2-materialize/blob/master/doc/badges.md)
  4. [Icons](https://github.com/DMGPage/yii2-materialize/blob/master/doc/icons.md)
  5. [Buttons](https://github.com/DMGPage/yii2-materialize/blob/master/doc/buttons.md)
  6. [Waves](https://github.com/DMGPage/yii2-materialize/blob/master/doc/waves.md)
