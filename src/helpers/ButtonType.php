@@ -7,11 +7,13 @@
 
 namespace dmgpage\yii2materialize\helpers;
 
+use MyCLabs\Enum\Enum;
+
 /**
  * This class references the supported button types
  * @package helpers
  */
-class Type
+class ButtonType extends Enum
 {
     const RAISED = 'raised';
     const FLOATING = 'floating';

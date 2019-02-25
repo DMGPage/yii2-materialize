@@ -24,15 +24,23 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *
  * ```php
  * echo Breadcrumbs::widget([
+ *     'type' => BreadcrumbType::BASE,
+ *     'homeLink' => [
+ *         'label' => 'Home',
+ *         'url' => '/',
+ *         'icon' => 'home'
+ *     ],
  *     'links' => [
  *         [
  *             'label' => 'Post Category',
  *             'url' => ['post-category/view', 'id' => 10],
- *             'target' => '_blank'
+ *             'target' => '_blank',
+ *             'icon' => 'create'
  *         ],
  *         [
  *             'label' => 'Sample Post',
- *             'url' => ['post/edit', 'id' => 1]
+ *             'url' => ['post/edit', 'id' => 1],
+ *             'icon' => 'reorder'
  *         ],
  *         'Edit',
  *     ],
@@ -72,7 +80,7 @@ class Breadcrumbs extends BaseWidget
 
     /**
      * @var string the type of breadcrumb to be rendered
-     * @see \dmgpage\yii2materialize\helpers\Type
+     * @see \dmgpage\yii2materialize\helpers\BreadcrumbType
      */
     public $type;
 
@@ -98,7 +106,7 @@ class Breadcrumbs extends BaseWidget
      * [
      *     'label' => 'label of the link',  // required
      *     'url' => 'url of the link',      // optional, will be processed by Url::to()
-     *     'icon' => [
+     *     'icon' => [                      // optional, will generate icon with given name and options
      *         'name' => 'home',
      *         'options' =>  ['class' => 'red']
      *     ]
@@ -167,7 +175,7 @@ class Breadcrumbs extends BaseWidget
     /**
      * Renders a single breadcrumb item.
      *
-     * @param array $link the link to be rendered. It must contain the "label" element. The "url" element is optional.
+     * @param array $link the link to be rendered. It must contain the "label" element. The "url" and "icon" element is optional.
      * @return string the rendering result
      * @throws InvalidConfigException if `$link` does not have "label" element.
      */
@@ -231,3 +239,4 @@ class Breadcrumbs extends BaseWidget
         return $html;
     }
 }
+
