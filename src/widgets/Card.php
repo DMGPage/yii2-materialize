@@ -9,12 +9,14 @@ namespace dmgpage\yii2materialize\widgets;
 
 use yii\base\Widget as BaseWidget;
 use dmgpage\yii2materialize\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 
 /**
  * Cards are a convenient means of displaying content composed of different types of objects.
  * They’re also well-suited for presenting similar objects whose size or supported actions can vary considerably,
  * like photos with captions of variable length.
- * 
+ *
  */
 class Card extends BaseWidget
 {
@@ -45,13 +47,36 @@ class Card extends BaseWidget
     /**
      * @var string title of the card
      */
-    public $cardTitle;
+    public $title;
 
     /**
      * @var array the HTML attributes for the card title tag of the card view. Uses only if "cardTitle" attribute is specified.
+     * - encode: boolean, optional, whether this item`s label should be HTML-encoded.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $titleOptions = [];
+
+    /**
+     * @var array list of card action items. Each action item should be an array of the following structure:
+     * - label: string, specifies the action item label. When [[encodeLabels]] is true, the label
+     *   will be HTML-encoded.
+     * - encode: boolean, optional, whether this item`s label should be HTML-encoded. This param will override
+     *   global [[encodeLabels]] param.
+     * - url: string or array, optional, specifies the URL of the action item. It will be processed by [[Url::to]].
+     * - options: array, optional, the HTML attributes for the action container tag.
+     */
+    public $actions = [];
+
+    /**
+     * @var array the HTML attributes for the card action tag of the card view. Uses only if "actions" attribute is specified.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $actionOptions = [];
+
+    /**
+     * @var bool whether to HTML-encode the link labels.
+     */
+    public $encodeLabels = true;
 
     /**
      * Initializes the widget.
@@ -60,20 +85,20 @@ class Card extends BaseWidget
     {
         parent::init();
 
-        $options = ['class' => 'card'];
-        Html::addCssClass($this->options, $options);
-        $contentOptions = ['class' => 'card-content'];
-        Html::addCssClass($this->contentOptions, $contentOptions);
+        Html::addCssClass($this->options, ['class' => 'card']);
+        Html::addCssClass($this->contentOptions, ['class' => 'card-content']);
 
         $html = Html::beginGridRow($this->rowOptions);
         $html .= Html::beginGridCol($this->colOptions);
         $html .= Html::beginTag('div', $this->options);
         $html .= Html::beginTag('div', $this->contentOptions);
 
-        if (!empty($this->cardTitle)) {
-            $titleOptions = ['class' => 'card-title'];
-            Html::addCssClass($this->titleOptions, $titleOptions);
-            $html .= Html::tag('span', $this->cardTitle, ['class' => 'card-title']);
+        if (!empty($this->title)) {
+            $encode = isset($this->titleOptions['encode']) ? $this->titleOptions['encode'] : $this->encodeLabels;
+            unset($this->titleOptions['encode']);
+            Html::addCssClass($this->titleOptions, ['class' => 'card-title']);
+            $title = $encode ? Html::encode($this->title) : $this->title;
+            $html .= Html::tag('span', $title, $this->titleOptions);
         }
 
         echo $html;
@@ -84,11 +109,56 @@ class Card extends BaseWidget
      */
     public function run()
     {
-        $html = Html::endTag('div');
+        $html = Html::endTag('div'); // ends container tag
+
+        if (!empty($this->actions)) {
+            Html::addCssClass($this->actionOptions, ['class' => 'card-action']);
+            $html .= Html::beginTag('div', $this->actionOptions);
+
+            foreach ($this->actions as $action) {
+                $html .= $this->renderActionItem($action);
+            }
+
+            $html .= Html::endTag('div');
+        }
+
         $html .= Html::endTag('div');
         $html .= Html::endGridCol();
         $html .= Html::endGridRow();
 
         echo $html;
+    }
+
+    /**
+     * Renders a single card action item.
+     *
+     * @param array $link the link to be rendered. It must contain the "label" element. The "url" and "icon" element is optional.
+     * @return string the rendering result
+     * @throws InvalidConfigException if `$link` does not have "label" element.
+     */
+    protected function renderActionItem($link)
+    {
+        $encodeLabel = ArrayHelper::remove($link, 'encode', $this->encodeLabels);
+
+        if (array_key_exists('label', $link)) {
+            $label = $encodeLabel ? Html::encode($link['label']) : $link['label'];
+        } else {
+            throw new InvalidConfigException('The "label" element is required for each link.');
+        }
+
+        // Add icon to label text
+        // https://github.com/google/material-design-icons/issues/206
+//        if (isset($link['icon'])) {
+//            $label = $this->renderIcon($link['icon']) . $label;
+//        }
+
+        $options = $link;
+        unset($options['label'], $options['url'], $options['icon']);
+
+        if (isset($link['url'])) {
+            return Html::a($label, $link['url'], $options);
+        } else {
+            return Html::a($label, '#', $options);
+        }
     }
 }
