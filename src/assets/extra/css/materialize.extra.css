@@ -5,6 +5,9 @@
  * Licensed under BSD 3 (https://github.com/DMGPage/yii2-materialize/blob/master/LICENSE)
  */
 
+/* Breadcrumb types and icons
+   ========================================================================== */
+
 nav.default .breadcrumb::before {
     float: left;
 }
@@ -89,4 +92,17 @@ nav.flat .breadcrumb:hover {
 
 nav.flat .breadcrumb:hover:after {
     border-left-color: #0288d1;
+}
+
+/* Card icons
+   ========================================================================== */
+
+.card > .card-action > a {
+    display: inline-flex;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.card > .card-action > a > i {
+    margin-top:-1px;
 }
