@@ -20,11 +20,12 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  * You can use Cards like this:
  *
  * ```php
- * Card::begin([
- *     'colOptions' => ['class' => 's12 m6'],
- *     'cardOptions' => ['class' => 'blue-grey darken-1'],
- *     'contentOptions' => ['class' => 'white-text'],
+ * echo Card::widget([
+ *     'colContainerOptions' => ['class' => 's12 m4'],
+ *     'cardContainerOptions' => ['class' => 'blue-grey darken-1'],
+ *     'contentContainerOptions' => ['class' => 'white-text'],
  *     'title' => 'Card Title',
+ *     'titlePosition' => Card::TITLE_POS_IMAGE,
  *     'actions' => [
  *         [
  *             'label' => 'This is a link #1',
@@ -32,10 +33,10 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *             'encode' => false,
  *         ],
  *         ['label' => 'This is a link #2']
- *     ]
+ *     ],
+ *     'content' => $this->render('card'),
+ *     'imageUrl' => 'https://materializecss.com/images/sample-1.jpg'
  * ]);
- *     echo 'I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.';
- * Card::end();
  * ```
  */
 class Card extends Widget
