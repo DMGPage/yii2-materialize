@@ -107,7 +107,6 @@ class Card extends Widget
 
         Html::addCssClass($this->cardOptions, ['class' => 'card']);
         Html::addCssClass($this->contentOptions, ['class' => 'card-content']);
-        echo $html;
 
         $html = Html::beginGridRow($this->options);
         $html .= Html::beginGridCol($this->colOptions);
