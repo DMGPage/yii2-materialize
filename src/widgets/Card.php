@@ -103,7 +103,7 @@ class Card extends Widget
      */
     public function init()
     {
-        parent::init();
+        parent::init()
 
         Html::addCssClass($this->cardOptions, ['class' => 'card']);
         Html::addCssClass($this->contentOptions, ['class' => 'card-content']);
