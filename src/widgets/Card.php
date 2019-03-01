@@ -41,6 +41,18 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
 class Card extends Widget
 {
     /**
+     * The location of card title.
+     * This means, the location is at the card-content section.
+     */
+    const TITLE_POS_CONTENT = 'content';
+
+    /**
+     * The location of card title.
+     * This means, the location is at the card-image section.
+     */
+    const TITLE_POS_IMAGE = 'image';
+
+    /**
      * @var array the HTML attributes for the row container tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
@@ -50,19 +62,19 @@ class Card extends Widget
      * @var array the HTML attributes for the column container tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $colOptions = ['class' => 's12 m6'];
-
-    /**
-     * @var array the HTML attributes for the card container tag of the card view.
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public $cardOptions = [];
+    public $colContainerOptions = ['class' => 's12 m6'];
 
     /**
      * @var array the HTML attributes for the card content wrapper tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $contentOptions = [];
+    public $cardContainerOptions = [];
+
+    /**
+     * @var array the HTML attributes for the card content wrapper tag of the card view.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $contentContainerOptions = [];
 
     /**
      * @var string title of the card
@@ -77,6 +89,11 @@ class Card extends Widget
     public $titleOptions = [];
 
     /**
+     * @var string position of the card title. Possible values are: image, content. Default value is content
+     */
+    public $titlePosition = self::TITLE_POS_CONTENT;
+
+    /**
      * @var array list of card action items. Each action item should be an array of the following structure:
      * - label: string, specifies the action item label. When [[encodeLabels]] is true, the label
      *   will be HTML-encoded.
@@ -88,37 +105,58 @@ class Card extends Widget
     public $actions = [];
 
     /**
-     * @var array the HTML attributes for the card action tag of the card view. Uses only if "actions" attribute is specified.
+     * @var array the HTML attributes for the card action wrapper tag of the card view. Uses only if "actions" attribute is specified.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $actionOptions = [];
+    public $actionContainerOptions = [];
 
     /**
-     * @var bool whether to HTML-encode the link labels.
+     * @var bool whether to HTML-encode the link labels and card title
      */
     public $encodeLabels = true;
 
     /**
+     * @var string Card body. It will NOT be HTML-encoded. Therefore you can pass in HTML code.
+     * If this is coming from end users, you should consider encode() it to prevent XSS attacks.
+     */
+    public $content;
+
+    /**
+     * @var string the image URL. This parameter will be processed by [[Url::to()]]
+     */
+    public $imageUrl;
+
+    /**
+     * @var array the HTML attributes for the card image wrapper tag of the card view. Uses only if "imageUrl" attribute is specified.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $imageContainerOptions = [];
+
+    /**
+     * @var array the HTML attributes for the card image tag of the card view. Uses only if "imageUrl" attribute is specified.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $imageOptions = [];
+
+    /**
      * Initializes the widget.
+     * @return void
      */
     public function init()
     {
         parent::init();
 
-        Html::addCssClass($this->cardOptions, ['class' => 'card']);
-        Html::addCssClass($this->contentOptions, ['class' => 'card-content']);
+        Html::addCssClass($this->cardContainerOptions, ['class' => 'card']);
+        Html::addCssClass($this->contentContainerOptions, ['class' => 'card-content']);
 
         $html = Html::beginGridRow($this->options);
-        $html .= Html::beginGridCol($this->colOptions);
-        $html .= Html::beginTag('div', $this->cardOptions);
-        $html .= Html::beginTag('div', $this->contentOptions);
+        $html .= Html::beginGridCol($this->colContainerOptions);
+        $html .= Html::beginTag('div', $this->cardContainerOptions);
+        $html .= $this->renderImageContent();
+        $html .= Html::beginTag('div', $this->contentContainerOptions);
 
-        if (!empty($this->title)) {
-            $encode = isset($this->titleOptions['encode']) ? $this->titleOptions['encode'] : $this->encodeLabels;
-            unset($this->titleOptions['encode']);
-            Html::addCssClass($this->titleOptions, ['class' => 'card-title']);
-            $title = $encode ? Html::encode($this->title) : $this->title;
-            $html .= Html::tag('span', $title, $this->titleOptions);
+        if ($this->titlePosition === self::TITLE_POS_CONTENT) {
+            $html .= $this->renderTitleContent();
         }
 
         echo $html;
@@ -126,15 +164,18 @@ class Card extends Widget
 
     /**
      * Renders the widget.
+     * @return void
      */
     public function run()
     {
         $this->registerPlugin('card');
-        $html = Html::endTag('div'); // ends container tag
+
+        $html = $this->content;
+        $html .= Html::endTag('div'); // ends container tag
 
         if (!empty($this->actions)) {
-            Html::addCssClass($this->actionOptions, ['class' => 'card-action']);
-            $html .= Html::beginTag('div', $this->actionOptions);
+            Html::addCssClass($this->actionContainerOptions, ['class' => 'card-action']);
+            $html .= Html::beginTag('div', $this->actionContainerOptions);
 
             foreach ($this->actions as $action) {
                 $html .= $this->renderActionItem($action);
@@ -148,6 +189,48 @@ class Card extends Widget
         $html .= Html::endGridRow();
 
         echo $html;
+    }
+
+    /**
+     * Renders card title tag content.
+     * @return string the rendering result
+     */
+    protected function renderTitleContent()
+    {
+        $html = '';
+
+        if (!empty($this->title)) {
+            $encode = isset($this->titleOptions['encode']) ? $this->titleOptions['encode'] : $this->encodeLabels;
+            unset($this->titleOptions['encode']);
+            Html::addCssClass($this->titleOptions, ['class' => 'card-title']);
+            $title = $encode ? Html::encode($this->title) : $this->title;
+            $html .= Html::tag('span', $title, $this->titleOptions);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Renders card-image tag content, if "imageUrl" attribute is specified.
+     * @return string the rendering result
+     */
+    protected function renderImageContent()
+    {
+        $html = '';
+
+        if (!empty($this->imageUrl)) {
+            Html::addCssClass($this->imageContainerOptions, ['class' => 'card-image']);
+            $html .= Html::beginTag('div', $this->imageContainerOptions);
+            $html .= Html::img($this->imageUrl, $this->imageOptions);
+
+            if ($this->titlePosition === self::TITLE_POS_IMAGE) {
+                $html .= $this->renderTitleContent();
+            }
+
+            $html .= Html::endTag('div');
+        }
+
+        return $html;
     }
 
     /**
