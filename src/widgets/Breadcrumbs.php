@@ -8,7 +8,6 @@
 namespace dmgpage\yii2materialize\widgets;
 
 use yii\base\InvalidConfigException;
-use yii\base\Widget as BaseWidget;
 use yii\helpers\ArrayHelper;
 use dmgpage\yii2materialize\helpers\Html;
 use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
@@ -58,7 +57,7 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  * ]);
  * ```
  */
-class Breadcrumbs extends BaseWidget
+class Breadcrumbs extends Widget
 {
     /**
      * @var array the HTML attributes for the breadcrumb container tag.
@@ -123,6 +122,8 @@ class Breadcrumbs extends BaseWidget
      */
     public function init()
     {
+        parent::init();
+
         if (!isset($this->wrapperOptions['class'])) {
             Html::addCssClass($this->wrapperOptions, 'nav-wrapper');
         }
@@ -137,6 +138,8 @@ class Breadcrumbs extends BaseWidget
      */
     public function run()
     {
+        $this->registerPlugin('breadcrumb');
+
         if (!empty($this->links)) {
             $links = [];
 
@@ -191,6 +194,7 @@ class Breadcrumbs extends BaseWidget
 
         // Add icon to label text
         if (isset($link['icon'])) {
+            // Has issues on positioning: https://github.com/Dogfalo/materialize/issues/6224
             $label = $this->renderIcon($link['icon']) . $label;
         }
 
@@ -206,37 +210,6 @@ class Breadcrumbs extends BaseWidget
         } else {
             return Html::tag('span', $label, $options) ;
         }
-    }
-
-    /**
-     * Renders an icon.
-     * Has issues on positioning: https://github.com/Dogfalo/materialize/issues/6224
-     *
-     * @param string|array $icon the options for the optional icon.
-     * @return string the rendered icon
-     * @throws \yii\base\InvalidConfigException if icon name is not specified
-     *
-     * @uses http://www.yiiframework.com/doc-2.0/yii-helpers-basearrayhelper.html#getValue()-detail
-     * @see Icon::run
-     */
-    protected function renderIcon($icon)
-    {
-        $html = '';
-
-        if (!empty($icon)) {
-            if (is_array($icon) && isset($icon['name'])) {
-                $iconName = ArrayHelper::getValue($icon, 'name', null);
-            } elseif (is_string($icon)) {
-                $iconName = $icon;
-            } else {
-                throw new InvalidConfigException('The icon name must be specified.');
-            }
-
-            $iconOptions = ArrayHelper::getValue($icon, 'options', []);
-            $html = Html::icon($iconName, $iconOptions);
-        }
-
-        return $html;
     }
 }
 

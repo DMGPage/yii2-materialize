@@ -8,6 +8,9 @@
 namespace dmgpage\yii2materialize\widgets;
 
 use dmgpage\yii2materialize\assets\MaterializePluginAsset;
+use dmgpage\yii2materialize\helpers\Html;
+use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 
 /**
  * MaterializeWidgetTrait is the trait, which provides basic for all Materialize widgets features.
@@ -57,7 +60,7 @@ trait MaterializeWidgetTrait
     public function init()
     {
         parent::init();
-        
+
         if (!isset($this->options['id'])) {
             $this->options['id'] = $this->getId();
         }
@@ -90,6 +93,36 @@ trait MaterializeWidgetTrait
         if (!empty($this->clientEvents)) {
             //...
         }
+    }
+
+    /**
+     * Renders an icon.
+     *
+     * @param string|array $icon the options for the optional icon.
+     * @return string the rendered icon
+     * @throws InvalidConfigException if icon name is not specified
+     *
+     * @uses ArrayHelper::getValue
+     * @see Html::icon
+     */
+    protected function renderIcon($icon)
+    {
+        $html = '';
+
+        if (!empty($icon)) {
+            if (is_array($icon) && isset($icon['name'])) {
+                $iconName = ArrayHelper::getValue($icon, 'name', null);
+            } elseif (is_string($icon)) {
+                $iconName = $icon;
+            } else {
+                throw new InvalidConfigException('The icon name must be specified.');
+            }
+
+            $iconOptions = ArrayHelper::getValue($icon, 'options', []);
+            $html = Html::icon($iconName, $iconOptions);
+        }
+
+        return $html;
     }
 
     /**

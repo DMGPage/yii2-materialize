@@ -7,10 +7,10 @@
 
 namespace dmgpage\yii2materialize\widgets;
 
-use yii\base\Widget as BaseWidget;
 use dmgpage\yii2materialize\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
 
 /**
  * Cards are a convenient means of displaying content composed of different types of objects.
@@ -18,13 +18,13 @@ use yii\base\InvalidConfigException;
  * like photos with captions of variable length.
  *
  */
-class Card extends BaseWidget
+class Card extends Widget
 {
     /**
      * @var array the HTML attributes for the row container tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $rowOptions = [];
+    public $options = [];
 
     /**
      * @var array the HTML attributes for the column container tag of the card view.
@@ -36,7 +36,7 @@ class Card extends BaseWidget
      * @var array the HTML attributes for the card container tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $options = [];
+    public $cardOptions = [];
 
     /**
      * @var array the HTML attributes for the card content wrapper tag of the card view.
@@ -85,12 +85,12 @@ class Card extends BaseWidget
     {
         parent::init();
 
-        Html::addCssClass($this->options, ['class' => 'card']);
+        Html::addCssClass($this->cardOptions, ['class' => 'card']);
         Html::addCssClass($this->contentOptions, ['class' => 'card-content']);
 
-        $html = Html::beginGridRow($this->rowOptions);
+        $html = Html::beginGridRow($this->options);
         $html .= Html::beginGridCol($this->colOptions);
-        $html .= Html::beginTag('div', $this->options);
+        $html .= Html::beginTag('div', $this->cardOptions);
         $html .= Html::beginTag('div', $this->contentOptions);
 
         if (!empty($this->title)) {
@@ -109,6 +109,7 @@ class Card extends BaseWidget
      */
     public function run()
     {
+        $this->registerPlugin('card');
         $html = Html::endTag('div'); // ends container tag
 
         if (!empty($this->actions)) {
@@ -147,13 +148,15 @@ class Card extends BaseWidget
         }
 
         // Add icon to label text
-        // https://github.com/google/material-design-icons/issues/206
-//        if (isset($link['icon'])) {
-//            $label = $this->renderIcon($link['icon']) . $label;
-//        }
+        if (isset($link['icon'])) {
+            $view = $this->getView();
+            MaterializeExtraAsset::register($view);
 
-        $options = $link;
-        unset($options['label'], $options['url'], $options['icon']);
+            // Has issues on positioning: https://github.com/google/material-design-icons/issues/206
+            $label = $this->renderIcon($link['icon']) . $label;
+        }
+
+        $options = $link['options'];
 
         if (isset($link['url'])) {
             return Html::a($label, $link['url'], $options);
