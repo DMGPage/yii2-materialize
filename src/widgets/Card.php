@@ -17,6 +17,26 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  * They’re also well-suited for presenting similar objects whose size or supported actions can vary considerably,
  * like photos with captions of variable length.
  *
+ * You can use Cards like this:
+ *
+ * ```php
+ * Card::begin([
+ *     'colOptions' => ['class' => 's12 m6'],
+ *     'cardOptions' => ['class' => 'blue-grey darken-1'],
+ *     'contentOptions' => ['class' => 'white-text'],
+ *     'title' => 'Card Title',
+ *     'actions' => [
+ *         [
+ *             'label' => 'This is a link #1',
+ *             'icon' => 'add',
+ *             'encode' => false,
+ *         ],
+ *         ['label' => 'This is a link #2']
+ *     ]
+ * ]);
+ *     echo 'I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.';
+ * Card::end();
+ * ```
  */
 class Card extends Widget
 {
