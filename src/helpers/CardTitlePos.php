@@ -7,7 +7,7 @@
 
 namespace dmgpage\yii2materialize\helpers;
 
-use MyCLabs\Enum\Enum;
+use MabeEnum\Enum;
 
 /**
  * This class references the supported card title positions
