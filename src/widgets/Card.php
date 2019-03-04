@@ -11,6 +11,7 @@ use dmgpage\yii2materialize\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
 use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
+use dmgpage\yii2materialize\helpers\CardTitlePos;
 
 /**
  * Cards are a convenient means of displaying content composed of different types of objects.
@@ -25,7 +26,7 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *     'cardContainerOptions' => ['class' => 'blue-grey darken-1'],
  *     'contentContainerOptions' => ['class' => 'white-text'],
  *     'title' => 'Card Title',
- *     'titlePosition' => Card::TITLE_POS_IMAGE,
+ *     'titlePosition' => CardTitlePos::IMAGE,
  *     'actions' => [
  *         [
  *             'label' => 'This is a link #1',
@@ -34,25 +35,20 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *         ],
  *         ['label' => 'This is a link #2']
  *     ],
+ *     'imageUrl' => 'https://materializecss.com/images/sample-1.jpg',
+ *     'actionBtn' => [
+ *         'type' => ButtonType::FLOATING,
+ *         'size' => Size::MEDIUM,
+ *         'waves' => Waves::LIGHT,
+ *         'icon' => ['name' => 'add'],
+ *         'options' => ['class' => 'red']
+ *     ]
  *     'content' => $this->render('card'),
- *     'imageUrl' => 'https://materializecss.com/images/sample-1.jpg'
  * ]);
  * ```
  */
 class Card extends Widget
 {
-    /**
-     * The location of card title.
-     * This means, the location is at the card-content section.
-     */
-    const TITLE_POS_CONTENT = 'content';
-
-    /**
-     * The location of card title.
-     * This means, the location is at the card-image section.
-     */
-    const TITLE_POS_IMAGE = 'image';
-
     /**
      * @var array the HTML attributes for the row container tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
@@ -66,13 +62,13 @@ class Card extends Widget
     public $colContainerOptions = ['class' => 's12 m6'];
 
     /**
-     * @var array the HTML attributes for the card content wrapper tag of the card view.
+     * @var array the HTML attributes for the content wrapper tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $cardContainerOptions = [];
 
     /**
-     * @var array the HTML attributes for the card content wrapper tag of the card view.
+     * @var array the HTML attributes for the content wrapper tag of the card view.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $contentContainerOptions = [];
@@ -83,7 +79,7 @@ class Card extends Widget
     public $title;
 
     /**
-     * @var array the HTML attributes for the card title tag of the card view. Uses only if "cardTitle" attribute is specified.
+     * @var array the HTML attributes for the title tag of the card view. Uses only if "cardTitle" attribute is specified.
      * - encode: boolean, optional, whether this item`s label should be HTML-encoded.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
@@ -92,7 +88,7 @@ class Card extends Widget
     /**
      * @var string position of the card title. Possible values are: image, content. Default value is content
      */
-    public $titlePosition = self::TITLE_POS_CONTENT;
+    public $titlePosition = CardTitlePos::CONTENT;
 
     /**
      * @var array list of card action items. Each action item should be an array of the following structure:
@@ -101,12 +97,13 @@ class Card extends Widget
      * - encode: boolean, optional, whether this item`s label should be HTML-encoded. This param will override
      *   global [[encodeLabels]] param.
      * - url: string or array, optional, specifies the URL of the action item. It will be processed by [[Url::to]].
+     * - icon: string or array, optional, icon name or array with 'name' and 'options'.
      * - options: array, optional, the HTML attributes for the action container tag.
      */
     public $actions = [];
 
     /**
-     * @var array the HTML attributes for the card action wrapper tag of the card view. Uses only if "actions" attribute is specified.
+     * @var array the HTML attributes for the action wrapper tag of the card view. Uses only if "actions" attribute is specified.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $actionContainerOptions = [];
@@ -128,16 +125,22 @@ class Card extends Widget
     public $imageUrl;
 
     /**
-     * @var array the HTML attributes for the card image wrapper tag of the card view. Uses only if "imageUrl" attribute is specified.
+     * @var array the HTML attributes for the image wrapper tag of the card view. Uses only if "imageUrl" attribute is specified.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $imageContainerOptions = [];
 
     /**
-     * @var array the HTML attributes for the card image tag of the card view. Uses only if "imageUrl" attribute is specified.
+     * @var array the HTML attributes for the image tag of the card view. Uses only if "imageUrl" attribute is specified.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $imageOptions = [];
+
+    /**
+     * @var array value will be passed to Button widget. You can set extra param 'url' to render it as link.
+     * @see \dmgpage\yii2materialize\widgets\Button for details on how attributes are being rendered.
+     */
+    public $actionBtn = [];
 
     /**
      * Initializes the widget.
@@ -156,7 +159,7 @@ class Card extends Widget
         $html .= $this->renderImageContent();
         $html .= Html::beginTag('div', $this->contentContainerOptions);
 
-        if ($this->titlePosition === self::TITLE_POS_CONTENT) {
+        if (CardTitlePos::CONTENT()->is($this->titlePosition)) {
             $html .= $this->renderTitleContent();
         }
 
@@ -224,11 +227,33 @@ class Card extends Widget
             $html .= Html::beginTag('div', $this->imageContainerOptions);
             $html .= Html::img($this->imageUrl, $this->imageOptions);
 
-            if ($this->titlePosition === self::TITLE_POS_IMAGE) {
+            if (CardTitlePos::IMAGE()->is($this->titlePosition)) {
                 $html .= $this->renderTitleContent();
             }
 
+            $html .= $this->renderActionButton();
             $html .= Html::endTag('div');
+        }
+
+        return $html;
+    }
+
+    /**
+     * Renders action button tag, if "actionBtn" attribute is specified.
+     * @return string the rendering result
+     */
+    protected function renderActionButton()
+    {
+        $html = '';
+
+        if (!empty($this->actionBtn)) {
+            if (!isset($this->actionBtn['options'])) {
+                $this->actionBtn['options'] = ['class' => 'halfway-fab'];
+            } else {
+                Html::addCssClass($this->actionBtn['options'], 'halfway-fab');
+            }
+
+            $html .= Button::widget($this->actionBtn);
         }
 
         return $html;

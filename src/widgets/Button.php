@@ -127,32 +127,6 @@ class Button extends Widget
         }
 
         $this->registerPlugin('button');
-        return Html::tag($this->tagName, $this->renderIcon() . $label, $this->options);
-    }
-
-    /**
-     * Renders an icon.
-     *
-     * @return string the rendered icon
-     * @throws \yii\base\InvalidConfigException if icon name is not specified
-     *
-     * @uses http://www.yiiframework.com/doc-2.0/yii-helpers-basearrayhelper.html#getValue()-detail
-     * @see Icon::run
-     */
-    protected function renderIcon()
-    {
-        if (!$this->icon) {
-            return '';
-        } else {
-            $name = ArrayHelper::getValue($this->icon, 'name', null);
-            $position = ArrayHelper::getValue($this->icon, 'position', []);
-            $options = ArrayHelper::getValue($this->icon, 'options', []);
-
-            if (!empty($position)) {
-                Html::addCssClass($options, $position);
-            }
-
-            return Html::icon($name, $options);
-        }
+        return Html::tag($this->tagName, $this->renderIcon($this->icon) . $label, $this->options);
     }
 }
