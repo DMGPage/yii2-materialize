@@ -15,7 +15,7 @@
     "require": {
         "yiisoft/yii2": "~2.0",
         "bower-asset/materialize": "1.0.0",
-        "myclabs/php-enum": "1.6.4"
+        "marc-mabe/php-enum": "2.3.1"
     },
     "repositories": [
         {
