@@ -11,6 +11,9 @@ use MabeEnum\Enum;
 
 /**
  * This class references the supported card title positions
+ *
+ * @method string CONTENT()
+ * @method string IMAGE()
  * @package helpers
  */
 class CardTitlePos extends Enum
