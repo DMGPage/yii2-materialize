@@ -91,6 +91,11 @@ class Card extends Widget
     public $titlePosition = CardTitlePos::CONTENT;
 
     /**
+     * @var bool whether image should be on left side. Default value is false
+     */
+    public $horizontal = false;
+
+    /**
      * @var array list of card action items. Each action item should be an array of the following structure:
      * - label: string, specifies the action item label. When [[encodeLabels]] is true, the label
      *   will be HTML-encoded.
@@ -150,13 +155,19 @@ class Card extends Widget
     {
         parent::init();
 
-        Html::addCssClass($this->cardContainerOptions, ['class' => 'card']);
+        $defaultCardClass = $this->horizontal ? ['card', 'horizontal'] : 'card';
+        Html::addCssClass($this->cardContainerOptions, $defaultCardClass);
         Html::addCssClass($this->contentContainerOptions, ['class' => 'card-content']);
 
         $html = Html::beginGridRow($this->options);
         $html .= Html::beginGridCol($this->colContainerOptions);
         $html .= Html::beginTag('div', $this->cardContainerOptions);
         $html .= $this->renderImageContent();
+
+        if ($this->horizontal) {
+            $html .= Html::beginTag('div', ['class' => 'card-stacked']);
+        }
+
         $html .= Html::beginTag('div', $this->contentContainerOptions);
 
         if (CardTitlePos::CONTENT()->is($this->titlePosition)) {
@@ -175,7 +186,7 @@ class Card extends Widget
         $this->registerPlugin('card');
 
         $html = $this->content;
-        $html .= Html::endTag('div'); // ends container tag
+        $html .= Html::endTag('div'); // ends card-content tag
 
         if (!empty($this->actions)) {
             Html::addCssClass($this->actionContainerOptions, ['class' => 'card-action']);
@@ -188,7 +199,11 @@ class Card extends Widget
             $html .= Html::endTag('div');
         }
 
-        $html .= Html::endTag('div');
+        if ($this->horizontal) {
+            $html .= Html::endTag('div'); //ends card-stacked tag
+        }
+
+        $html .= Html::endTag('div'); //ends card tag
         $html .= Html::endGridCol();
         $html .= Html::endGridRow();
 
