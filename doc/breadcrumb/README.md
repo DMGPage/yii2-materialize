@@ -1,6 +1,7 @@
 
 # Breadcrumbs
 Breadcrumbs are a good way to display your current location. This is usually used when you have multiple layers of content. You can use 3 type of breadcrumb: default, clean and flat. Or you can ignore type option, if you want to use base Materialize CSS breadcrumb.
+
 ## Default
 This is basically optimized default breadcrumb with working icons in it. Default Materialize CSS breadcrumb [breaks icon positions](https://github.com/Dogfalo/materialize/issues/6224).
 
