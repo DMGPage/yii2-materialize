@@ -74,7 +74,7 @@ echo Html::beginGridRow();
     echo Html::endGridCol();
 echo Html::endGridRow();
 ```
-
+ 1. [Grid](https://github.com/DMGPage/yii2-materialize/blob/master/doc/grid.md)
  2. [Blockquotes](https://github.com/DMGPage/yii2-materialize/blob/master/doc/blockquotes.md)
  3. [Badges](https://github.com/DMGPage/yii2-materialize/blob/master/doc/badges.md)
  4. [Icons](https://github.com/DMGPage/yii2-materialize/blob/master/doc/icons.md)
