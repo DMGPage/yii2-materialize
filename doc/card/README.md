@@ -63,6 +63,8 @@ echo Card::widget([
 
 Here is an image card with a Floating Action Button. 
 
+![FAB card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/image-fab.png)
+
 ```php
 use dmgpage\yii2materialize\widgets\Card;
 use dmgpage\yii2materialize\helpers\ButtonType;
