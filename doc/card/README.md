@@ -40,6 +40,7 @@ use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
     'columnOptions' => ['class' => 's12 m3'],
+    'cardOptions' => ['class' => 'blue-grey darken-1'],
     'image' => [
         'title' => 'Image Card Title',
         'url' => 'https://materializecss.com/images/sample-1.jpg',
@@ -47,7 +48,8 @@ echo Card::widget([
     ],
     'content' => [
         'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
-            . 'I am convenient because I require little markup to use effectively.</p>'
+            . 'I am convenient because I require little markup to use effectively.</p>',
+        'options' => ['class' => 'white-text']
     ],
     'actions' => [
         ['label' => 'This is a link #1'],
