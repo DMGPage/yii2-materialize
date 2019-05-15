@@ -33,18 +33,18 @@ echo Card::widget([
 
 Here is the standard card with an image thumbnail.
 
-![Basic card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/image.png)
+![Image card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/image.png)
 
 ```php
 use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
     'columnOptions' => ['class' => 's12 m3'],
-    'cardOptions' => ['class' => 'blue-grey darken-1'],
+    'cardOptions' => ['class' => 'light-blue darken-4'],
     'image' => [
         'title' => 'Image Card Title',
         'url' => 'https://materializecss.com/images/sample-1.jpg',
-        'titleOptions' => ['class' => 'teal-text text-accent-1']
+        'titleOptions' => ['class' => 'light-blue-text text-lighten-4']
     ],
     'content' => [
         'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
