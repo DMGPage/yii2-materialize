@@ -101,19 +101,26 @@ echo Card::widget([
 
 Here is the standard card with a horizontal image.
 
+![Horizontal card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/horizontal.png)
+
 ```php
 use dmgpage\yii2materialize\widgets\Card;
-use dmgpage\yii2materialize\helpers\CardTitlePos;
 
 echo Card::widget([
-    'colContainerOptions' => ['class' => 's12 m7'],
-    'title' => 'Card Title',
-    'titlePosition' => CardTitlePos::CONTENT,
-    'horizontal' => true,
-    'actions' => [
-        ['label' => 'This is a link']
+    'columnOptions' => ['class' => 's12 m3'],
+    'cardOptions' => ['class' => 'teal darken-4'],
+    'image' => [
+        'url' => 'https://lorempixel.com/100/190/nature/6'
     ],
-    'content' => 'I am a very simple card. I am good at containing small bits of information.',
-    'imageUrl' => 'https://lorempixel.com/100/190/nature/6'
+    'horizontal' => true,
+    'content' => [
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.</p>',
+        'options' => ['class' => 'white-text']
+    ],
+    'actions' => [
+        ['label' => 'This is a link #1'],
+        ['label' => 'This is a link #2']
+    ],
 ]);
 ```
