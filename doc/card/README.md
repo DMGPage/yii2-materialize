@@ -12,12 +12,13 @@ use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
     'columnOptions' => ['class' => 's12 m4'],
-    'cardOptions' => ['class' => 'blue-grey darken-1'],
+    'cardOptions' => ['class' => 'light-blue darken-4'],
     'content' => [
         'title' => 'Card Title',
         'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
             . 'I am convenient because I require little markup to use effectively.</p>',
-        'options' => ['class' => 'white-text']
+        'options' => ['class' => 'white-text'],
+        'titleOptions' => ['class' => 'light-blue-text text-lighten-4']
     ],
     'actions' => [
         [
