@@ -22,8 +22,7 @@ echo Card::widget([
     'actions' => [
         [
             'label' => 'This is a link #1',
-            'icon' => 'add',
-            'encode' => false,
+            'icon' => 'add'
         ],
         ['label' => 'This is a link #2']
     ],
@@ -32,26 +31,28 @@ echo Card::widget([
 
 ## Image Card
 
-Here is the standard card with an image thumbnail. 
+Here is the standard card with an image thumbnail.
+
+![Basic card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/image.png)
 
 ```php
 use dmgpage\yii2materialize\widgets\Card;
-use dmgpage\yii2materialize\helpers\CardTitlePos;
 
 echo Card::widget([
-    'colContainerOptions' => ['class' => 's12 m4'],
-    'title' => 'Card Title',
-    'titlePosition' => CardTitlePos::IMAGE,
+    'columnOptions' => ['class' => 's12 m3'],
+    'image' => [
+        'title' => 'Image Card Title',
+        'url' => 'https://materializecss.com/images/sample-1.jpg',
+        'titleOptions' => ['class' => 'teal-text text-accent-1']
+    ],
+    'content' => [
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.</p>'
+    ],
     'actions' => [
-        [
-            'label' => 'This is a link #1',
-            'icon' => 'add',
-            'encode' => false,
-        ],
+        ['label' => 'This is a link #1'],
         ['label' => 'This is a link #2']
     ],
-    'content' => 'I am a very simple card. I am good at containing small bits of information.',
-    'imageUrl' => 'https://materializecss.com/images/sample-1.jpg'
 ]);
 ```
 
