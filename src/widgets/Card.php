@@ -20,7 +20,30 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  * You can use Cards like this:
  *
  * ```php
- *
+ * echo Card::widget([
+ *     'columnOptions' => ['class' => 's12 m3'],
+ *     'cardOptions' => ['class' => 'light-blue darken-4'],
+ *     'image' => [
+ *         'title' => 'Image Card Title',
+ *         'url' => 'https://materializecss.com/images/sample-1.jpg',
+ *         'fab' => [
+ *             'type' => ButtonType::FLOATING,
+ *             'size' => Size::MEDIUM,
+ *             'waves' => Waves::LIGHT,
+ *             'icon' => ['name' => 'add'],
+ *             'options' => ['class' => 'light-blue accent-2']
+ *         ]
+ *     ],
+ *     'content' => [
+ *         'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+ *             . 'I am convenient because I require little markup to use effectively.</p>',
+ *         'options' => ['class' => 'white-text']
+ *     ],
+ *     'actions' => [
+ *         ['label' => 'This is a link #1'],
+ *         ['label' => 'This is a link #2']
+ *     ],
+ * ]);
  * ```
  */
 class Card extends Widget
