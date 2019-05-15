@@ -45,15 +45,29 @@ class Card extends Widget
     /**
      * @var array a list of attributes to be displayed in the card content. Item should be an array
      * of the following structure:
-     * - title: string, title for the card content.
+     * - title: string, title for the card image. Value will be HTML-encoded.
+     *   You can change this, by setting extra attribute ["encode" => false] in "titleOptions" attribute
      * - value: string, the HTML content for the card body. It will NOT be HTML-encoded.
      *   Therefore you can pass in HTML code. If this is coming from end users,
      *   you should consider encode() it to prevent XSS attacks.
      * - options: array, the HTML attributes for the card content tag.
-     * - titleOptions: array the HTML attributes for the title tag of the card view.
-     *   Value will be HTML-encoded. You can change this, by setting extra attribute ["encode" => false]
+     * - titleOptions: array the HTML attributes for the title tag.
      */
     public $content = [];
+
+    /**
+     * @var array a list of attributes to be displayed in the card image. Item should be an array
+     * of the following structure:
+     * - title: string, title for the card image. Value will be HTML-encoded.
+     *   You can change this, by setting extra attribute ["encode" => false] in "titleOptions" attribute
+     * - url: string the image URL. This parameter will be processed by [[Url::to()]].
+     * - fab: array list of attributes for floating action button. Value will be passed to [[Button]] widget.
+     *   You can set extra param 'url' to render it as link.
+     * - options: array, the HTML attributes for the card image tag.
+     * - titleOptions: array the HTML attributes for the title tag.
+     * - imageOptions: array the HTML attributes for the image tag of the card view.
+     */
+    public $image = [];
 
     /**
      * @var array list of card action items. Each action item should be an array of the following structure:
@@ -74,6 +88,11 @@ class Card extends Widget
     public $actionOptions = [];
 
     /**
+     * @var bool whether image should be on left side. Default value is false
+     */
+    public $horizontal = false;
+
+    /**
      * Initializes the widget.
      * @return void
      */
@@ -81,16 +100,23 @@ class Card extends Widget
     {
         parent::init();
 
-        $defaultCardClass = 'card';
+        $defaultCardClass = $this->horizontal ? ['card', 'horizontal'] : 'card';
         Html::addCssClass($this->cardOptions, $defaultCardClass);
         $cardContentOptions = isset($this->content['options']) ? $this->content['options'] : [];
         Html::addCssClass($cardContentOptions, ['class' => 'card-content']);
+        $contentData = $this->content;
 
         $html = Html::beginGridRow($this->options);
         $html .= Html::beginGridCol($this->columnOptions);
         $html .= Html::beginTag('div', $this->cardOptions);
+        $html .= $this->renderImageContent($contentData);
+
+        if ($this->horizontal) {
+            $html .= Html::beginTag('div', ['class' => 'card-stacked']);
+        }
+
         $html .= Html::beginTag('div', $cardContentOptions);
-        $html .= $this->renderTitleContent();
+        $html .= $this->renderTitleContent($contentData);
 
         echo $html;
     }
@@ -117,6 +143,10 @@ class Card extends Widget
             $html .= Html::endTag('div');
         }
 
+        if ($this->horizontal) {
+            $html .= Html::endTag('div'); //ends card-stacked tag
+        }
+
         $html .= Html::endTag('div'); //ends card tag
         $html .= Html::endGridCol();
         $html .= Html::endGridRow();
@@ -126,15 +156,17 @@ class Card extends Widget
 
     /**
      * Renders card content title tag content.
+     *
+     * @param array $source data source for title and options
      * @return string the rendering result
      */
-    protected function renderTitleContent()
+    protected function renderTitleContent($source)
     {
         $html = '';
 
-        if (isset($this->content['title'])) {
-            $titleValue = $this->content['title'];
-            $titleOptions = isset($this->content['titleOptions']) ? $this->content['titleOptions'] : [];
+        if (isset($source['title'])) {
+            $titleValue = $source['title'];
+            $titleOptions = isset($source['titleOptions']) ? $source['titleOptions'] : [];
             $encode = isset($titleOptions['encode']) ? $titleOptions['encode'] : $this->encodeLabels;
             unset($titleOptions['encode']);
             Html::addCssClass($titleOptions, ['class' => 'card-title']);
@@ -178,5 +210,54 @@ class Card extends Widget
         } else {
             return Html::a($label, '#', $options);
         }
+    }
+
+    /**
+     * Renders card-image tag content.
+     * @return string the rendering result
+     */
+    protected function renderImageContent()
+    {
+        $html = '';
+
+        if (!empty($this->image)) {
+            $imageData = $this->image;
+            $fabData = isset($this->image['fab']) ? $this->image['fab'] : [];
+            $options = isset($imageData['options']) ? $imageData['options'] : [];
+            $imageOptions = isset($imageData['imageOptions']) ? $imageData['imageOptions'] : [];
+            $imageUrl = isset($imageData['url']) ? $imageData['url'] : [];
+            Html::addCssClass($options, ['class' => 'card-image']);
+
+            $html .= Html::beginTag('div', $options);
+            $html .= Html::img($imageUrl, $imageOptions);
+            $html .= $this->renderTitleContent($imageData);
+            $html .= $this->renderActionButton($fabData);
+            $html .= Html::endTag('div');
+        }
+
+        return $html;
+    }
+
+    /**
+     * Renders floating action button tag.
+     *
+     * @param array $config attribute values and options for Button widget.
+     * @return string the rendering result
+     */
+    protected function renderActionButton($config)
+    {
+        $html = '';
+
+        if (!empty($config)) {
+            if (!isset($config['options'])) {
+                $config['options'] = ['class' => 'halfway-fab'];
+            } else {
+                Html::addCssClass($config['options'], 'halfway-fab');
+            }
+
+            $html .= Button::widget($config);
+        }
+
+        return $html;
     }
 }
