@@ -134,6 +134,12 @@ class Card extends Widget
     public $horizontal = false;
 
     /**
+     * @var bool whether card should be spaced as panel. Default value is false.
+     * Use this for a simpler card with less markup, because it has only padding and a shadow effect.
+     */
+    public $panel = false;
+
+    /**
      * Initializes the widget.
      * @return void
      */
@@ -146,7 +152,9 @@ class Card extends Widget
         $cardContentOptions = isset($this->content['options']) ? $this->content['options'] : [];
         Html::addCssClass($cardContentOptions, ['class' => 'card-content']);
 
-        if ($this->horizontal) {
+        if ($this->panel) {
+            Html::addCssClass($this->cardOptions, ['card-panel']);
+        } elseif ($this->horizontal) {
             Html::addCssClass($this->cardOptions, ['card', 'horizontal']);
         } elseif ($useStickyActions) {
             Html::addCssClass($this->cardOptions, ['card', 'sticky-action']);
@@ -174,7 +182,11 @@ class Card extends Widget
                 : $contentData['titleOptions']['icon'];
         }
 
-        $html .= Html::beginTag('div', $cardContentOptions);
+        // Create card content, if panel not is true
+        if (!$this->panel) {
+            $html .= Html::beginTag('div', $cardContentOptions);
+        }
+
         $html .= $this->renderTitleContent($contentData);
 
         echo $html;
@@ -189,7 +201,10 @@ class Card extends Widget
         $this->registerPlugin('card');
 
         $html = isset($this->content['value']) ? $this->content['value'] : '';
-        $html .= Html::endTag('div'); // ends card-content tag
+
+        if (!$this->panel) {
+            $html .= Html::endTag('div'); // ends card-content tag
+        }
 
         if (!empty($this->actions)) {
             Html::addCssClass($this->actionOptions, ['class' => 'card-action']);
