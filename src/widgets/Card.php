@@ -166,7 +166,7 @@ class Card extends Widget
         $html = Html::beginGridRow($this->options);
         $html .= Html::beginGridCol($this->columnOptions);
         $html .= Html::beginTag('div', $this->cardOptions);
-        $html .= $this->renderImageContent($contentData);
+        $html .= $this->renderImageContent();
 
         // Create stacked content, if horizontal attribute is true
         if ($this->horizontal) {
