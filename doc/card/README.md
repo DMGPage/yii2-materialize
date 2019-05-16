@@ -30,6 +30,26 @@ echo Card::widget([
 ]);
 ```
 
+## Card Panel
+
+For a simpler card with less markup, try using a card panel which just has padding and a shadow effect.
+
+![Card panel](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/panel.png)
+
+```php
+use dmgpage\yii2materialize\widgets\Card;
+
+echo Card::widget([
+    'panel' => true,
+    'columnOptions' => ['class' => 's12 m4'],
+    'cardOptions' => ['class' => 'light-blue darken-4 white-text'],
+    'content' => [
+        'value' => 'I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.'
+    ]
+]);
+```
+
 ## Image Card
 
 Here is the standard card with an image thumbnail.
