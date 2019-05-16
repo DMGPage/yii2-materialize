@@ -182,8 +182,14 @@ echo Card::widget([
         'options' => ['class' => 'cyan darken-4 white-text']
     ],
     'actions' => [
-        ['label' => 'This is a link #1'],
-        ['label' => 'This is a link #2']
+        [
+            'label' => 'VISIT WEB',
+            'icon' => 'language'
+        ],
+        [
+            'label' => 'FIND',
+            'icon' => 'room'
+        ],
     ],
     'actionOptions' => [
         'sticky' => true
