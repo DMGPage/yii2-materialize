@@ -124,3 +124,69 @@ echo Card::widget([
     ],
 ]);
 ```
+
+## Card Reveal
+
+Here you can add a card that reveals more information once clicked. The default state is having the card-reveal go over the card-action. 
+
+![Card reveal](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/reveal.png)
+
+```php
+use dmgpage\yii2materialize\widgets\Card;
+
+echo Card::widget([
+    'columnOptions' => ['class' => 's12 m3'],
+    'cardOptions' => ['class' => 'teal darken-4'],
+    'image' => [
+        'url' => 'https://materializecss.com/images/office.jpg'
+    ],
+    'content' => [
+        'title' => 'Card Content Title',
+        'value' => '<p>I am a very simple card.</p>',
+        'options' => ['class' => 'white-text']
+    ],
+    'reveal' => [
+        'title' => 'Card Reveal Title',
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.</p>'
+    ],
+    'actions' => [
+        ['label' => 'This is a link #1'],
+        ['label' => 'This is a link #2']
+    ],
+]);
+```
+
+You can change card action visibility by changing attribute "sticky" in "actionOptions".
+
+![Card reveal](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/sticky-action.png)
+
+```php
+use dmgpage\yii2materialize\widgets\Card;
+
+echo Card::widget([
+    'columnOptions' => ['class' => 's12 m3'],
+    'cardOptions' => ['class' => 'teal darken-4'],
+    'image' => [
+        'url' => 'https://materializecss.com/images/office.jpg'
+    ],
+    'content' => [
+        'title' => 'Card Content Title',
+        'value' => '<p>I am a very simple card.</p>',
+        'options' => ['class' => 'white-text']
+    ],
+    'reveal' => [
+        'title' => 'Card Reveal Title',
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.</p>',
+        'options' => ['class' => 'cyan darken-4 white-text']
+    ],
+    'actions' => [
+        ['label' => 'This is a link #1'],
+        ['label' => 'This is a link #2']
+    ],
+    'actionOptions' => [
+        'sticky' => true
+    ]
+]);
+```
