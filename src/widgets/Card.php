@@ -66,7 +66,7 @@ class Card extends Widget
     public $encodeLabels = true;
 
     /**
-     * @var array a list of attributes to be displayed in the card content. Item should be an array
+     * @var array a list of attributes to be displayed in the card content tag. Item should be an array
      * of the following structure:
      * - title: string, title for the card image. Value will be HTML-encoded.
      *   You can change this, by setting extra attribute ["encode" => false] in "titleOptions" attribute
@@ -74,12 +74,13 @@ class Card extends Widget
      *   Therefore you can pass in HTML code. If this is coming from end users,
      *   you should consider encode() it to prevent XSS attacks.
      * - options: array, the HTML attributes for the card content tag.
-     * - titleOptions: array the HTML attributes for the title tag.
+     * - titleOptions: array the HTML attributes for the title tag. You can specify 'icon' attribute
+     *   (name for the icon), if you want to add icon to the right side of the title.
      */
     public $content = [];
 
     /**
-     * @var array a list of attributes to be displayed in the card image. Item should be an array
+     * @var array a list of attributes to be displayed in the card image tag. Item should be an array
      * of the following structure:
      * - title: string, title for the card image. Value will be HTML-encoded.
      *   You can change this, by setting extra attribute ["encode" => false] in "titleOptions" attribute
@@ -87,8 +88,9 @@ class Card extends Widget
      * - fab: array list of attributes for floating action button. Value will be passed to [[Button]] widget.
      *   You can set extra param 'url' to render it as link.
      * - options: array, the HTML attributes for the card image tag.
-     * - titleOptions: array the HTML attributes for the title tag.
-     * - imageOptions: array the HTML attributes for the image tag of the card view.
+     * - titleOptions: array the HTML attributes for the title tag. You can specify 'icon' attribute
+     *   (name for the icon), if you want to add icon to the right side of the title.
+     * - imageOptions: array the HTML attributes for the image tag.
      */
     public $image = [];
 
@@ -105,10 +107,26 @@ class Card extends Widget
     public $actions = [];
 
     /**
-     * @var array the HTML attributes for the action wrapper tag of the card view. Uses only if "actions" attribute is specified.
+     * @var array the HTML attributes for the action wrapper tag of the card view.
+     * You can use attribute "sticky" to change, whether card actions must be always visible.
+     * Default value is false.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $actionOptions = [];
+
+    /**
+     * @var array a list of attributes to be displayed in the card reveal tag. Item should be an array
+     * of the following structure:
+     * - title: string, title for the card image. Value will be HTML-encoded.
+     *   You can change this, by setting extra attribute ["encode" => false] in "titleOptions" attribute
+     * - value: string, the HTML content for the card body. It will NOT be HTML-encoded.
+     *   Therefore you can pass in HTML code. If this is coming from end users,
+     *   you should consider encode() it to prevent XSS attacks.
+     * - options: array, the HTML attributes for the card content tag.
+     * - titleOptions: array the HTML attributes for the title tag. You can specify 'icon' attribute
+     *   (name for the icon), if you want to add icon to the right side of the title.
+     */
+    public $reveal = [];
 
     /**
      * @var bool whether image should be on left side. Default value is false
@@ -123,19 +141,37 @@ class Card extends Widget
     {
         parent::init();
 
-        $defaultCardClass = $this->horizontal ? ['card', 'horizontal'] : 'card';
-        Html::addCssClass($this->cardOptions, $defaultCardClass);
+        $contentData = $this->content;
+        $useStickyActions = isset($this->actionOptions['sticky']) ? $this->actionOptions['sticky'] : false;
         $cardContentOptions = isset($this->content['options']) ? $this->content['options'] : [];
         Html::addCssClass($cardContentOptions, ['class' => 'card-content']);
-        $contentData = $this->content;
+
+        if ($this->horizontal) {
+            Html::addCssClass($this->cardOptions, ['card', 'horizontal']);
+        } elseif ($useStickyActions) {
+            Html::addCssClass($this->cardOptions, ['card', 'sticky-action']);
+            unset($this->actionOptions['sticky']);
+        } else {
+            Html::addCssClass($this->cardOptions, ['card']);
+        }
 
         $html = Html::beginGridRow($this->options);
         $html .= Html::beginGridCol($this->columnOptions);
         $html .= Html::beginTag('div', $this->cardOptions);
         $html .= $this->renderImageContent($contentData);
 
+        // Create stacked content, if horizontal attribute is true
         if ($this->horizontal) {
             $html .= Html::beginTag('div', ['class' => 'card-stacked']);
+        }
+
+        // Add reviel button to content title, if reveal attribute is not empty
+        if (!empty($this->reveal)) {
+            Html::addCssClass($contentData['titleOptions'], 'activator');
+            $addIcon = !isset($contentData['titleOptions']['icon']);
+            $contentData['titleOptions']['icon'] = $addIcon
+                ? 'more_vert'
+                : $contentData['titleOptions']['icon'];
         }
 
         $html .= Html::beginTag('div', $cardContentOptions);
@@ -170,6 +206,8 @@ class Card extends Widget
             $html .= Html::endTag('div'); //ends card-stacked tag
         }
 
+        // Add card reveal tag
+        $html .= $this->renderRevealContent();
         $html .= Html::endTag('div'); //ends card tag
         $html .= Html::endGridCol();
         $html .= Html::endGridRow();
@@ -191,9 +229,12 @@ class Card extends Widget
             $titleValue = $source['title'];
             $titleOptions = isset($source['titleOptions']) ? $source['titleOptions'] : [];
             $encode = isset($titleOptions['encode']) ? $titleOptions['encode'] : $this->encodeLabels;
+            $icon = isset($titleOptions['icon']) ? $titleOptions['icon'] : null;
             unset($titleOptions['encode']);
-            Html::addCssClass($titleOptions, ['class' => 'card-title']);
+            Html::addCssClass($titleOptions, 'card-title');
             $title = $encode ? Html::encode($titleValue) : $titleValue;
+            $title .= !empty($icon) ? Html::icon($icon, ['class' => 'material-icons right']) : '';
+            unset($titleOptions['icon']);
             $html .= Html::tag('span', $title, $titleOptions);
         }
 
@@ -244,16 +285,16 @@ class Card extends Widget
         $html = '';
 
         if (!empty($this->image)) {
-            $imageData = $this->image;
-            $fabData = isset($this->image['fab']) ? $this->image['fab'] : [];
-            $options = isset($imageData['options']) ? $imageData['options'] : [];
-            $imageOptions = isset($imageData['imageOptions']) ? $imageData['imageOptions'] : [];
-            $imageUrl = isset($imageData['url']) ? $imageData['url'] : [];
+            $contentData = $this->image;
+            $fabData = isset($contentData['fab']) ? $contentData['fab'] : [];
+            $options = isset($contentData['options']) ? $contentData['options'] : [];
+            $imageOptions = isset($contentData['imageOptions']) ? $contentData['imageOptions'] : [];
+            $imageUrl = isset($contentData['url']) ? $contentData['url'] : [];
             Html::addCssClass($options, ['class' => 'card-image']);
 
             $html .= Html::beginTag('div', $options);
             $html .= Html::img($imageUrl, $imageOptions);
-            $html .= $this->renderTitleContent($imageData);
+            $html .= $this->renderTitleContent($contentData);
             $html .= $this->renderActionButton($fabData);
             $html .= Html::endTag('div');
         }
@@ -279,6 +320,32 @@ class Card extends Widget
             }
 
             $html .= Button::widget($config);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Renders card-reveal tag content.
+     * @return string the rendering result
+     */
+    protected function renderRevealContent()
+    {
+        $html = '';
+
+        if (!empty($this->reveal)) {
+            $contentData = $this->reveal;
+            $options = isset($contentData['options']) ? $contentData['options'] : [];
+            $addIcon = !isset($contentData['titleOptions']['icon']);
+            $contentData['titleOptions']['icon'] = $addIcon
+                ? 'close'
+                : $contentData['titleOptions']['icon'];
+            Html::addCssClass($options, ['class' => 'card-reveal']);
+
+            $html .= Html::beginTag('div', $options);
+            $html .= $this->renderTitleContent($contentData);
+            $html .= isset($contentData['value']) ? $contentData['value'] : '';
+            $html .= Html::endTag('div');
         }
 
         return $html;
