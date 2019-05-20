@@ -32,12 +32,12 @@ class Tabs extends Widget
      * - linkOptions: array, optional, the HTML attributes of the tab header link tags.
      * - content: string, optional, the content (HTML) of the tab pane.
      * - url: string, optional, an external URL. When this is specified, clicking on this tab will bring
-     *   the browser to this URL. This option is available since version 2.0.4.
+     *   the browser to this URL
      * - options: array, optional, the HTML attributes of the tab pane container.
      * - active: boolean, optional, whether this item tab header and pane should be active. If no item is marked as
      *   'active' explicitly - the first one will be activated.
      * - visible: boolean, optional, whether the item tab header and pane should be visible or not. Defaults to true.
      */
     public $items = [];
-    
+
 }
