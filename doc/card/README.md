@@ -11,8 +11,7 @@ Cards are a convenient means of displaying content composed of different types o
 use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
-    'columnOptions' => ['class' => 's12 m4'],
-    'cardOptions' => ['class' => 'light-blue darken-4'],
+    'options' => ['class' => 'light-blue darken-4'],
     'content' => [
         'title' => 'Card Title',
         'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
@@ -41,8 +40,7 @@ use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
     'panel' => true,
-    'columnOptions' => ['class' => 's12 m4'],
-    'cardOptions' => ['class' => 'light-blue darken-4 white-text'],
+    'options' => ['class' => 'light-blue darken-4 white-text'],
     'content' => [
         'value' => 'I am a very simple card. I am good at containing small bits of information. '
             . 'I am convenient because I require little markup to use effectively.'
@@ -60,8 +58,7 @@ Here is the standard card with an image thumbnail.
 use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
-    'columnOptions' => ['class' => 's12 m3'],
-    'cardOptions' => ['class' => 'light-blue darken-4'],
+    'options' => ['class' => 'light-blue darken-4'],
     'image' => [
         'title' => 'Image Card Title',
         'url' => 'https://materializecss.com/images/sample-1.jpg',
@@ -92,8 +89,7 @@ use dmgpage\yii2materialize\helpers\Size;
 use dmgpage\yii2materialize\helpers\Waves;
 
 echo Card::widget([
-    'columnOptions' => ['class' => 's12 m3'],
-    'cardOptions' => ['class' => 'light-blue darken-4'],
+    'options' => ['class' => 'light-blue darken-4'],
     'image' => [
         'title' => 'Image Card Title',
         'url' => 'https://materializecss.com/images/sample-1.jpg',
@@ -127,8 +123,7 @@ Here is the standard card with a horizontal image.
 use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
-    'columnOptions' => ['class' => 's12 m3'],
-    'cardOptions' => ['class' => 'teal darken-4'],
+    'options' => ['class' => 'teal darken-4'],
     'image' => [
         'url' => 'https://lorempixel.com/100/190/nature/6'
     ],
@@ -155,8 +150,7 @@ Here you can add a card that reveals more information once clicked. The default 
 use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
-    'columnOptions' => ['class' => 's12 m3'],
-    'cardOptions' => ['class' => 'teal darken-4'],
+    'options' => ['class' => 'teal darken-4'],
     'image' => [
         'url' => 'https://materializecss.com/images/office.jpg'
     ],
@@ -185,8 +179,7 @@ You can change card action visibility by changing attribute "sticky" in "actionO
 use dmgpage\yii2materialize\widgets\Card;
 
 echo Card::widget([
-    'columnOptions' => ['class' => 's12 m3'],
-    'cardOptions' => ['class' => 'teal darken-4'],
+    'options' => ['class' => 'teal darken-4'],
     'image' => [
         'url' => 'https://materializecss.com/images/office.jpg'
     ],
