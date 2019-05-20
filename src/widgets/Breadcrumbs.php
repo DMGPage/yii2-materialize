@@ -56,6 +56,8 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
  * ]);
  * ```
+ * @see https://materializecss.com/breadcrumbs.html
+ * @package widgets
  */
 class Breadcrumbs extends Widget
 {

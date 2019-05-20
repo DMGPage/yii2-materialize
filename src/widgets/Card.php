@@ -21,8 +21,7 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *
  * ```php
  * echo Card::widget([
- *     'columnOptions' => ['class' => 's12 m3'],
- *     'cardOptions' => ['class' => 'light-blue darken-4'],
+ *     'options' => ['class' => 'light-blue darken-4'],
  *     'image' => [
  *         'title' => 'Image Card Title',
  *         'url' => 'https://materializecss.com/images/sample-1.jpg',
@@ -45,21 +44,11 @@ use dmgpage\yii2materialize\assets\MaterializeExtraAsset;
  *     ],
  * ]);
  * ```
+ * @see https://materializecss.com/cards.html
+ * @package widgets
  */
 class Card extends Widget
 {
-    /**
-     * @var array the HTML attributes for the column container tag of the card view.
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public $columnOptions = ['class' => 's12 m6'];
-
-    /**
-     * @var array the HTML attributes for the content wrapper tag of the card view.
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
-     */
-    public $cardOptions = [];
-
     /**
      * @var bool whether to HTML-encode the link labels and card title
      */
@@ -153,19 +142,17 @@ class Card extends Widget
         Html::addCssClass($cardContentOptions, ['class' => 'card-content']);
 
         if ($this->panel) {
-            Html::addCssClass($this->cardOptions, ['card-panel']);
+            Html::addCssClass($this->options, ['card-panel']);
         } elseif ($this->horizontal) {
-            Html::addCssClass($this->cardOptions, ['card', 'horizontal']);
+            Html::addCssClass($this->options, ['card', 'horizontal']);
         } elseif ($useStickyActions) {
-            Html::addCssClass($this->cardOptions, ['card', 'sticky-action']);
+            Html::addCssClass($this->options, ['card', 'sticky-action']);
             unset($this->actionOptions['sticky']);
         } else {
-            Html::addCssClass($this->cardOptions, ['card']);
+            Html::addCssClass($this->options, ['card']);
         }
 
-        $html = Html::beginGridRow($this->options);
-        $html .= Html::beginGridCol($this->columnOptions);
-        $html .= Html::beginTag('div', $this->cardOptions);
+        $html = Html::beginTag('div', $this->options);
         $html .= $this->renderImageContent();
 
         // Create stacked content, if horizontal attribute is true
@@ -224,8 +211,6 @@ class Card extends Widget
         // Add card reveal tag
         $html .= $this->renderRevealContent();
         $html .= Html::endTag('div'); //ends card tag
-        $html .= Html::endGridCol();
-        $html .= Html::endGridRow();
 
         echo $html;
     }
