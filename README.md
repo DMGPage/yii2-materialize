@@ -65,6 +65,7 @@ Using Materialize through Yii asset manager allows you to minimize its resources
  6. [Waves](https://github.com/DMGPage/yii2-materialize/blob/master/doc/waves.md)
  7. [Breadcrumbs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/breadcrumb/README.md)
  8. [Card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/README.md)
+ 9. [Tabs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/tabs.md)
 
 ## License
 
