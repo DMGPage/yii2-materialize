@@ -1,4 +1,4 @@
-# Grid
+# Tabs
 
 The tabs structure consists of an unordered list of tabs that have hashes corresponding to tab ids.
 Then when you click on each tab, only the container with the corresponding tab id will become visible.
