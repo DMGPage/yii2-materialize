@@ -18,7 +18,33 @@ use yii\base\InvalidConfigException;
  * You can use Tabs like this:
  *
  * ```php
- *
+ * echo Tabs::widget([
+ *     'items' => [
+ *         [
+ *             'label' => 'Home',
+ *             'content' => 'Home content...',
+ *             'active' => true
+ *         ],
+ *         [
+ *             'label' => 'Profile',
+ *             'content' => 'Profile content...'
+ *         ],
+ *         [
+ *             'label' => 'Messages',
+ *             'content' => 'Messages content...',
+ *             'disabled' => true
+ *         ],
+ *         [
+ *             'label' => 'Google',
+ *             'url' => 'http://www.google.lv'
+ *         ],
+ *         [
+ *             'label' => 'Hidden',
+ *             'content' => 'Hidden content...',
+ *             'visible' => false
+ *         ],
+ *     ]
+ * ]);
  * ```
  * @see https://materializecss.com/tabs.html
  * @package widgets
@@ -41,6 +67,7 @@ class Tabs extends Widget
      * - active: boolean, optional, whether this item tab header and pane should be active. If no item is marked as
      *   'active' explicitly - the first one will be activated.
      * - visible: boolean, optional, whether the item tab header and pane should be visible or not. Defaults to true.
+     * - disabled: boolean, optional, whether the item tab header and pane should be disabled or not. Defaults to false.
      */
     public $items = [];
 
@@ -59,10 +86,30 @@ class Tabs extends Widget
     public $linkOptions = [];
 
     /**
+     * @var array list of HTML attributes for the item container tags. This will be overwritten
+     * by the "options" set in individual [[items]]. The following special options are recognized:
+     *
+     * - tag: string, defaults to "div", the tag name of the item container tags.
+     *
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $itemOptions = [];
+
+    /**
      * @var boolean whether to render the `tab-content` container and its content. You may set this property
      * to be false so that you can manually render `tab-content` yourself in case your tab contents are complex.
      */
     public $renderTabContent = true;
+
+    /**
+     * @var boolean whether the labels for header items should be HTML-encoded.
+     */
+    public $encodeLabels = true;
+
+    /**
+     * @var boolean whether the tab width for header items should be fixed.
+     */
+    public $fixedWidth = false;
 
     /**
      * Initializes the widget.
@@ -70,7 +117,12 @@ class Tabs extends Widget
     public function init()
     {
         parent::init();
-        Html::addCssClass($this->options, ['class' => 'tabs']);
+        
+        Html::addCssClass($this->options, ['widget' => 'tabs']);
+
+        if ($this->fixedWidth) {
+            Html::addCssClass($this->options, ['width' => 'tabs-fixed-width']);
+        }
     }
 
     /**
@@ -78,6 +130,7 @@ class Tabs extends Widget
      */
     public function run()
     {
+        $this->initializePlugin = true;
         $this->registerPlugin('tabs');
         return $this->renderItems();
     }
@@ -108,11 +161,36 @@ class Tabs extends Widget
                 $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
                 $options['id'] = ArrayHelper::getValue($options, 'id', $this->options['id'] . '-tab' . $index);
 
+                Html::addCssClass($options, 'col s12');
 
+                // Add active tab and content
+                if (ArrayHelper::remove($item, 'active')) {
+                    Html::addCssClass($options, 'active');
+                    Html::addCssClass($headerOptions, ['active', 'tab']);
+                } else {
+                    Html::addCssClass($headerOptions, 'tab');
+                }
 
+                // Add disabled tab and content
+                if (ArrayHelper::remove($item, 'disabled')) {
+                    Html::addCssClass($headerOptions, 'disabled');
+                }
 
+                // Add tab header
+                if (isset($item['url'])) {
+                    $linkOptions['target'] = isset($linkOptions['target']) ? $linkOptions['target'] : '_self';
+                    $header = Html::a($label, $item['url'], $linkOptions);
+                } else {
+                    $header = Html::a($label, '#' . $options['id'], $linkOptions);
+                }
 
-                
+                // Add tab content
+                if ($this->renderTabContent) {
+                    $tag = ArrayHelper::remove($options, 'tag', 'div');
+                    $panes[] = Html::tag($tag, isset($item['content']) ? $item['content'] : '', $options);
+                }
+
+                $headers[] = Html::tag('li', $header, $headerOptions);
             }
         }
 
