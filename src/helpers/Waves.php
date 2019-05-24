@@ -7,6 +7,8 @@
 
 namespace dmgpage\yii2materialize\helpers;
 
+use MabeEnum\Enum;
+
 /**
  * This class references the supported wave effects
  *
@@ -19,7 +21,7 @@ namespace dmgpage\yii2materialize\helpers;
  * @see https://materializecss.com/waves.html
  * @package helpers
  */
-class Waves
+class Waves extends Enum
 {
     const INIT = 'effect';
 

@@ -7,11 +7,13 @@
 
 namespace dmgpage\yii2materialize\helpers;
 
+use MabeEnum\Enum;
+
 /**
  * This class references the supported positions
  * @package helpers
  */
-class Position
+class Position extends Enum
 {
     const LEFT = 'left';
     const RIGHT = 'right';

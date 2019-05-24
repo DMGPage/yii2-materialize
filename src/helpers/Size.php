@@ -7,11 +7,13 @@
 
 namespace dmgpage\yii2materialize\helpers;
 
+use MabeEnum\Enum;
+
 /**
  * This class references the supported element sizes
  * @package helpers
  */
-class Size
+class Size extends Enum
 {
     const TINY = 'tiny';
     const SMALL = 'small';
