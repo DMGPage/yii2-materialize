@@ -11,6 +11,7 @@ use dmgpage\yii2materialize\assets\MaterializePluginAsset;
 use dmgpage\yii2materialize\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
+use yii\helpers\Json;
 
 /**
  * MaterializeWidgetTrait is the trait, which provides basic for all Materialize widgets features.
@@ -32,6 +33,11 @@ use yii\base\InvalidConfigException;
  */
 trait MaterializeWidgetTrait
 {
+    /**
+     * @var bool whether to initialize the plugin  or not. Defaults to false.
+     */
+    public $initializePlugin = false;
+
     /**
      * @var array the options for the underlying Materialize JS plugin.
      * Please refer to the corresponding Materialize plugin Web page for possible options.
@@ -78,8 +84,11 @@ trait MaterializeWidgetTrait
         $view = $this->getView();
         MaterializePluginAsset::register($view);
 
-        if (!empty($this->clientOptions)) {
-            //...
+        if ($this->initializePlugin) {
+            $id = $this->options['id'];
+            $options = empty($this->clientOptions) ? '' : Json::htmlEncode($this->clientOptions);
+            $js = "jQuery('#$id').$name($options);";
+            $view->registerJs($js);
         }
 
         $this->registerClientEvents();
