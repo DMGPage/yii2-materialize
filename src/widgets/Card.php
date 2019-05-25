@@ -137,20 +137,9 @@ class Card extends Widget
         parent::init();
 
         $contentData = $this->content;
-        $useStickyActions = isset($this->actionOptions['sticky']) ? $this->actionOptions['sticky'] : false;
         $cardContentOptions = isset($this->content['options']) ? $this->content['options'] : [];
         Html::addCssClass($cardContentOptions, ['class' => 'card-content']);
-
-        if ($this->panel) {
-            Html::addCssClass($this->options, ['card-panel']);
-        } elseif ($this->horizontal) {
-            Html::addCssClass($this->options, ['card', 'horizontal']);
-        } elseif ($useStickyActions) {
-            Html::addCssClass($this->options, ['card', 'sticky-action']);
-            unset($this->actionOptions['sticky']);
-        } else {
-            Html::addCssClass($this->options, ['card']);
-        }
+        $this->setCardClass(); // set main css classes to card tag
 
         $html = Html::beginTag('div', $this->options);
         $html .= $this->renderImageContent();
@@ -213,6 +202,26 @@ class Card extends Widget
         $html .= Html::endTag('div'); //ends card tag
 
         echo $html;
+    }
+
+    /**
+     * Sets card CSS class (or several classes) to the card options.
+     * @return void
+     */
+    protected function setCardClass()
+    {
+        $useStickyActions = isset($this->actionOptions['sticky']) ? $this->actionOptions['sticky'] : false;
+
+        if ($this->panel) {
+            Html::addCssClass($this->options, ['card-panel']);
+        } elseif ($this->horizontal) {
+            Html::addCssClass($this->options, ['card', 'horizontal']);
+        } elseif ($useStickyActions) {
+            Html::addCssClass($this->options, ['card', 'sticky-action']);
+            unset($this->actionOptions['sticky']);
+        } else {
+            Html::addCssClass($this->options, ['card']);
+        }
     }
 
     /**
