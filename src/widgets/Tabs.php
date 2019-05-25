@@ -180,6 +180,9 @@ class Tabs extends Widget
      */
     protected function renderItem($index, $item)
     {
+        $header = null;
+        $content = null;
+
         if (!array_key_exists('label', $item)) {
             throw new InvalidConfigException("The 'label' option is required.");
         } elseif (ArrayHelper::remove($item, 'visible', true)) {
@@ -217,8 +220,6 @@ class Tabs extends Widget
             if ($this->renderTabContent) {
                 $tag = ArrayHelper::remove($options, 'tag', 'div');
                 $content = Html::tag($tag, isset($item['content']) ? $item['content'] : '', $options);
-            } else {
-                $content = null;
             }
 
             $header = Html::tag('li', $header, $headerOptions);
