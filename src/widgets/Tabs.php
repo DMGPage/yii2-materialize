@@ -153,46 +153,12 @@ class Tabs extends Widget
         }
 
         foreach ($this->items as $index => $item) {
-            if (!array_key_exists('label', $item)) {
-                throw new InvalidConfigException("The 'label' option is required.");
-            } elseif (ArrayHelper::remove($item, 'visible', true)) {
-                $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
-                $label = $encodeLabel ? Html::encode($item['label']) : $item['label'];
-                $headerOptions = array_merge($this->headerOptions, ArrayHelper::getValue($item, 'headerOptions', []));
-                $linkOptions = array_merge($this->linkOptions, ArrayHelper::getValue($item, 'linkOptions', []));
-                $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
-                $options['id'] = ArrayHelper::getValue($options, 'id', $this->options['id'] . '-tab' . $index);
+            list($header, $content) = $this->renderItem($index, $item);
 
-                Html::addCssClass($options, 'col s12');
+            $headers[] = $header;
 
-                // Add active tab and content
-                if (ArrayHelper::remove($item, 'active')) {
-                    Html::addCssClass($options, 'active');
-                    Html::addCssClass($headerOptions, ['active', 'tab']);
-                } else {
-                    Html::addCssClass($headerOptions, 'tab');
-                }
-
-                // Add disabled tab and content
-                if (ArrayHelper::remove($item, 'disabled')) {
-                    Html::addCssClass($headerOptions, 'disabled');
-                }
-
-                // Add tab header
-                if (isset($item['url'])) {
-                    $linkOptions['target'] = isset($linkOptions['target']) ? $linkOptions['target'] : '_self';
-                    $header = Html::a($label, $item['url'], $linkOptions);
-                } else {
-                    $header = Html::a($label, '#' . $options['id'], $linkOptions);
-                }
-
-                // Add tab content
-                if ($this->renderTabContent) {
-                    $tag = ArrayHelper::remove($options, 'tag', 'div');
-                    $panes[] = Html::tag($tag, isset($item['content']) ? $item['content'] : '', $options);
-                }
-
-                $headers[] = Html::tag('li', $header, $headerOptions);
+            if (!empty($content)) {
+                $panes[] = $content;
             }
         }
 
@@ -202,6 +168,63 @@ class Tabs extends Widget
             : '';
 
         return $html;
+    }
+
+    /**
+     * Renders single tab item as specified on [[items]].
+     *
+     * @param int $index tab serial number
+     * @param array $item single tab element
+     * @return array returns array containing tab header and content [header, content]
+     * @throws InvalidConfigException.
+     */
+    protected function renderItem($index, $item)
+    {
+        if (!array_key_exists('label', $item)) {
+            throw new InvalidConfigException("The 'label' option is required.");
+        } elseif (ArrayHelper::remove($item, 'visible', true)) {
+            $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
+            $label = $encodeLabel ? Html::encode($item['label']) : $item['label'];
+            $headerOptions = array_merge($this->headerOptions, ArrayHelper::getValue($item, 'headerOptions', []));
+            $linkOptions = array_merge($this->linkOptions, ArrayHelper::getValue($item, 'linkOptions', []));
+            $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
+            $options['id'] = ArrayHelper::getValue($options, 'id', $this->options['id'] . '-tab' . $index);
+
+            Html::addCssClass($options, 'col s12');
+
+            // Add active tab and content
+            if (ArrayHelper::remove($item, 'active')) {
+                Html::addCssClass($options, 'active');
+                Html::addCssClass($headerOptions, ['active', 'tab']);
+            } else {
+                Html::addCssClass($headerOptions, 'tab');
+            }
+
+            // Add disabled tab and content
+            if (ArrayHelper::remove($item, 'disabled')) {
+                Html::addCssClass($headerOptions, 'disabled');
+            }
+
+            // Add tab header
+            if (isset($item['url'])) {
+                $linkOptions['target'] = isset($linkOptions['target']) ? $linkOptions['target'] : '_self';
+                $header = Html::a($label, $item['url'], $linkOptions);
+            } else {
+                $header = Html::a($label, '#' . $options['id'], $linkOptions);
+            }
+
+            // Add tab content
+            if ($this->renderTabContent) {
+                $tag = ArrayHelper::remove($options, 'tag', 'div');
+                $content = Html::tag($tag, isset($item['content']) ? $item['content'] : '', $options);
+            } else {
+                $content = null;
+            }
+
+            $header = Html::tag('li', $header, $headerOptions);
+        }
+
+        return [$header, $content];
     }
 
     /**
