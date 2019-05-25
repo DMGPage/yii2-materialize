@@ -46,6 +46,8 @@ use yii\base\InvalidConfigException;
  *     ]
  * ]);
  * ```
+ * @property bool $initializePlugin
+ *
  * @see https://materializecss.com/tabs.html
  * @package widgets
  */
