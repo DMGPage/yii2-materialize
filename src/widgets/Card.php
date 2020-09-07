@@ -381,6 +381,7 @@ class Card extends Widget
      */
     protected function renderTabsItem()
     {
+        $html = '';
         $widget = $this->tabs;
 
         if ($widget->beforeRun()) {
