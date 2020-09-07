@@ -129,6 +129,12 @@ class Card extends Widget
     public $panel = false;
 
     /**
+     * @var Tabs the class for tab content creation
+     * @see \dmgpage\yii2materialize\widgets\Tabs for details on how content are being rendered.
+     */
+    public $tabs;
+
+    /**
      * Initializes the widget.
      * @return void
      */
@@ -158,9 +164,14 @@ class Card extends Widget
                 : $contentData['titleOptions']['icon'];
         }
 
-        // Create card content, if panel not is true
+        // Create card content, if panel not true
         if (!$this->panel) {
             $html .= Html::beginTag('div', $cardContentOptions);
+        }
+
+        // Validate tab attribute
+        if ($this->tabs && !$this->tabs instanceof Tabs) {
+            throw new InvalidConfigException('"' . get_class($this) . '::$tabs" should be an instance of "\dmgpage\yii2materialize\widgets\Tabs".');
         }
 
         $html .= $this->renderTitleContent($contentData);
@@ -195,6 +206,10 @@ class Card extends Widget
 
         if ($this->horizontal) {
             $html .= Html::endTag('div'); //ends card-stacked tag
+        }
+
+        if ($this->tabs) {
+             $html .= $this->renderTabsItem();
         }
 
         // Add card reveal tag
@@ -355,6 +370,23 @@ class Card extends Widget
             $html .= $this->renderTitleContent($contentData);
             $html .= isset($contentData['value']) ? $contentData['value'] : '';
             $html .= Html::endTag('div');
+        }
+
+        return $html;
+    }
+
+    /**
+     * Renders card-tabs tag content.
+     * @return string the rendering result
+     */
+    protected function renderTabsItem()
+    {
+        $widget = $this->tabs;
+
+        if ($widget->beforeRun()) {
+            $widget->insideCard = true;
+            $result = $widget->run();
+            $html .= $widget->afterRun($result);
         }
 
         return $html;

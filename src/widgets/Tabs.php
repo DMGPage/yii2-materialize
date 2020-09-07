@@ -98,6 +98,18 @@ class Tabs extends Widget
     public $itemOptions = [];
 
     /**
+     * @var array the HTML attributes for the tab container tag.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $containerOptions = [];
+
+    /**
+     * @var array the HTML attributes for the tab content container tag.
+     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
+     */
+    public $contentOptions = [];
+
+    /**
      * @var boolean whether to render the `tab-content` container and its content. You may set this property
      * to be false so that you can manually render `tab-content` yourself in case your tab contents are complex.
      */
@@ -114,6 +126,16 @@ class Tabs extends Widget
     public $fixedWidth = false;
 
     /**
+     * @var boolean whether the tab background should be transparent.
+     */
+    public $transparent = false;
+
+    /**
+     * @var boolean whether the tab will be rendered inside card
+     */
+    public $insideCard = false;
+
+    /**
      * Initializes the widget.
      */
     public function init()
@@ -124,6 +146,10 @@ class Tabs extends Widget
 
         if ($this->fixedWidth) {
             Html::addCssClass($this->options, ['width' => 'tabs-fixed-width']);
+        }
+
+        if ($this->transparent) {
+            Html::addCssClass($this->options, ['transparent' => 'tabs-transparent']);
         }
     }
 
@@ -162,9 +188,20 @@ class Tabs extends Widget
             }
         }
 
-        $html = Html::tag('ul', implode("\n", $headers), $this->options);
+        if ($this->insideCard) {
+            Html::addCssClass($this->containerOptions, 'card-tabs');
+            Html::addCssClass($this->contentOptions, 'card-content');
+        } else {
+            Html::addCssClass($this->contentOptions, 'tab-content');
+        }
+
+        $html = $this->insideCard
+            ? "\n" . Html::beginTag('div', $this->containerOptions)
+            : '';
+        $html .= Html::tag('ul', implode("\n", $headers), $this->options);
+        $html .= $this->insideCard ? "\n" . Html::endTag('div') : '';
         $html .= $this->renderTabContent
-            ? "\n" . Html::tag('div', implode("\n", $panes), ['class' => 'tab-content'])
+            ? "\n" . Html::tag('div', implode("\n", $panes), $this->contentOptions)
             : '';
 
         return $html;
