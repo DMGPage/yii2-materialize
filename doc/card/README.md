@@ -209,3 +209,86 @@ echo Card::widget([
     ]
 ]);
 ```
+
+## Tabs in Cards
+
+You can add tabs to your cards by setting "tabs" attribute of "Card" widget.
+
+### White
+
+Basic white background card with tabs.
+
+![White](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/tabs-white.png)
+
+```php
+use dmgpage\yii2materialize\widgets\Card;
+use dmgpage\yii2materialize\widgets\Tabs;
+
+echo Card::widget([
+    'content' => [
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>',
+    ],
+    'tabs' => new Tabs([
+        'items' => [
+            [
+                'label' => 'Test 1',
+                'content' => 'Test 1',
+                'active' => true
+            ],
+            [
+                'label' => 'Test 2',
+                'content' => 'Test 2'
+            ],
+            [
+                'label' => 'Test 3',
+                'content' => 'Test 3'
+            ],
+        ],
+        'fixedWidth' => true,
+        'contentOptions' => [
+            'class' => 'grey lighten-4'
+        ]
+    ])
+]);
+```
+
+### Colored
+
+Colored or dark background card with tabs.
+
+![Colored](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/tabs-colored.png)
+
+```php
+use dmgpage\yii2materialize\widgets\Card;
+use dmgpage\yii2materialize\widgets\Tabs;
+
+echo Card::widget([
+    'options' => ['class' => 'blue'],
+    'content' => [
+        'options' => ['class' => 'white-text'],
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>',
+    ],
+    'tabs' => new Tabs([
+        'items' => [
+            [
+                'label' => 'Test 1',
+                'content' => 'Test 1',
+                'active' => true
+            ],
+            [
+                'label' => 'Test 2',
+                'content' => 'Test 2'
+            ],
+            [
+                'label' => 'Test 3',
+                'content' => 'Test 3'
+            ],
+        ],
+        'fixedWidth' => true,
+        'transparent' => true,
+        'contentOptions' => [
+            'class' => 'blue lighten-5'
+        ]
+    ])
+]);
+```
