@@ -226,7 +226,8 @@ use dmgpage\yii2materialize\widgets\Tabs;
 
 echo Card::widget([
     'content' => [
-        'value' => '<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>',
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.</p>',
     ],
     'tabs' => new Tabs([
         'items' => [
@@ -266,7 +267,8 @@ echo Card::widget([
     'options' => ['class' => 'blue'],
     'content' => [
         'options' => ['class' => 'white-text'],
-        'value' => '<p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>',
+        'value' => '<p>I am a very simple card. I am good at containing small bits of information. '
+            . 'I am convenient because I require little markup to use effectively.</p>',
     ],
     'tabs' => new Tabs([
         'items' => [
