@@ -230,7 +230,9 @@ class Tabs extends Widget
             $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
             $options['id'] = ArrayHelper::getValue($options, 'id', $this->options['id'] . '-tab' . $index);
 
-            Html::addCssClass($options, 'col s12');
+            if (!$this->insideCard) {
+                Html::addCssClass($options, 'col s12');
+            }
 
             // Add active tab and content
             if (ArrayHelper::remove($item, 'active')) {
