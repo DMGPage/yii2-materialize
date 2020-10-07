@@ -3,6 +3,7 @@ namespace dmgpage\yii2materialize\widgets;
 
 use dmgpage\yii2materialize\helpers\Html;
 use yii\helpers\ArrayHelper;
+use yii\base\InvalidConfigException;
 
 /**
  * Collections allow you to group list objects together.
@@ -64,6 +65,9 @@ class Collection extends Widget
      *   - options: array, optional, the HTML attributes of the icon link.
      *     for more description.
      *   - url: array|string, optional, the URL for the icon. Defaults to "#".
+     * - avatarIcon: string|array, optional, the options for the icon. See [[Html::icon()]]
+     * - avatarImg: array|string, optional, the path to the avatar image.
+     * - avatarOptions: array, optional, the HTML attributes of the avatar image or icon tag.
      */
     public $items = [];
 
@@ -144,6 +148,7 @@ class Collection extends Widget
             $options = ArrayHelper::getValue($item, 'options', []);
             $isActive = ArrayHelper::getValue($item, 'active', false);
             $containerClass = $isHeader ? 'collection-header' : 'collection-item';
+            $secondaryItem = ArrayHelper::getValue($item, 'secondary', []);
             Html::addCssClass($options, ['item' => $containerClass]);
 
             if ($isActive) {
@@ -158,9 +163,7 @@ class Collection extends Widget
             }
 
             // Secondary content
-            if (!$isHeader && isset($item['secondary'])) {
-                $itemContent .= $this->renderSecondary($item['secondary']);
-            }
+            $itemContent .= $this->renderSecondary($secondaryItem, $isHeader);
 
             // Item container
             if ($this->asLinks) {
@@ -177,25 +180,29 @@ class Collection extends Widget
      * Renders single secondary content item as specified on [[secondary]].
      *
      * @param array $item single secondary content element
+     * @param bool $isHeader whether this label should be formatted as header
      * @return string the rendering result
+     *
      * @throws InvalidConfigException.
      * @see https://materializecss.com/collections.html#secondary
      */
-    protected function renderSecondary($item)
+    protected function renderSecondary($item, $isHeader)
     {
-        if (!array_key_exists('icon', $item)) {
+        $content = null;
+
+        if (!empty($item) && !$isHeader && !array_key_exists('icon', $item)) {
             throw new InvalidConfigException("The 'icon' option is required for secondary content.");
-        } else {
+        } else if (!empty($item) && !$isHeader) {
             $url = ArrayHelper::getValue($item, 'url', '#');
             $options = ArrayHelper::getValue($item, 'options', []);
 
             Html::addCssClass($options, ['secondary' => 'secondary-content']);
 
             $icon = $this->renderIcon($item['icon']);
-            $link = Html::a($icon, $url, $options);
-
-            return $link;
+            $content = Html::a($icon, $url, $options);
         }
+
+        return $content;
     }
 
     /**
