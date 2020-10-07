@@ -75,7 +75,7 @@ class Button extends Widget
 
     /**
      * @var string the size (large or small) of button to be rendered
-     * @see @see \dmgpage\yii2materialize\helpers\Size
+     * @see \dmgpage\yii2materialize\helpers\Size
      */
     public $size;
 
