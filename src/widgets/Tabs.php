@@ -230,22 +230,9 @@ class Tabs extends Widget
             $options = array_merge($this->itemOptions, ArrayHelper::getValue($item, 'options', []));
             $options['id'] = ArrayHelper::getValue($options, 'id', $this->options['id'] . '-tab' . $index);
 
-            if (!$this->insideCard) {
-                Html::addCssClass($options, 'col s12');
-            }
-
-            // Add active tab and content
-            if (ArrayHelper::remove($item, 'active')) {
-                Html::addCssClass($options, 'active');
-                Html::addCssClass($headerOptions, ['active', 'tab']);
-            } else {
-                Html::addCssClass($headerOptions, 'tab');
-            }
-
-            // Add disabled tab and content
-            if (ArrayHelper::remove($item, 'disabled')) {
-                Html::addCssClass($headerOptions, 'disabled');
-            }
+            // Adds necessary classes for tab item
+            $this->addItemClasses($item, $options);
+            $this->addHeaderClasses($item, $headerOptions);
 
             // Add tab header
             if (isset($item['url'])) {
@@ -265,6 +252,47 @@ class Tabs extends Widget
         }
 
         return [$header, $content];
+    }
+
+    /**
+     * Adds necessary classes for tab item
+     *
+     * @param array $item single tab element
+     * @param int $options tab element options
+     * @return void
+     */
+    protected function addItemClasses(&$item, &$options)
+    {
+        if (!$this->insideCard) {
+            Html::addCssClass($options, 'col s12');
+        }
+
+        // Add active tab and content
+        if (ArrayHelper::remove($item, 'active')) {
+            Html::addCssClass($options, 'active');
+        }
+    }
+
+    /**
+     * Adds necessary classes for tab header item
+     *
+     * @param array $item single tab element
+     * @param int $options tab element options
+     * @return void
+     */
+    protected function addHeaderClasses(&$item, &$options)
+    {
+        // Add active tab and content
+        if (ArrayHelper::remove($item, 'active')) {
+            Html::addCssClass($options, ['active', 'tab']);
+        } else {
+            Html::addCssClass($options, 'tab');
+        }
+
+        // Add disabled tab and content
+        if (ArrayHelper::remove($item, 'disabled')) {
+            Html::addCssClass($options, 'disabled');
+        }
     }
 
     /**
