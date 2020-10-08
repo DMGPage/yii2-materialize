@@ -276,8 +276,8 @@ class Tabs extends Widget
     /**
      * Adds necessary classes for tab header item
      *
-     * @param array $item single tab element
-     * @param int $options tab element options
+     * @param array $item single tab header item
+     * @param int $options header options
      * @return void
      */
     protected function addHeaderClasses(&$item, &$options)
