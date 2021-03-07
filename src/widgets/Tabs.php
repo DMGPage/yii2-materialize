@@ -141,7 +141,7 @@ class Tabs extends Widget
     public function init()
     {
         parent::init();
-        
+
         Html::addCssClass($this->options, ['widget' => 'tabs']);
 
         if ($this->fixedWidth) {
@@ -258,7 +258,7 @@ class Tabs extends Widget
      * Adds necessary classes for tab item
      *
      * @param array $item single tab element
-     * @param int $options tab element options
+     * @param array $options tab element options
      * @return void
      */
     protected function addItemClasses(&$item, &$options)
@@ -277,7 +277,7 @@ class Tabs extends Widget
      * Adds necessary classes for tab header item
      *
      * @param array $item single tab header item
-     * @param int $options header options
+     * @param array $options header options
      * @return void
      */
     protected function addHeaderClasses(&$item, &$options)
