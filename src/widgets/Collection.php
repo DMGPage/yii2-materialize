@@ -51,6 +51,11 @@ class Collection extends Widget
      * @var array list of items in the collection widget. Each array element represents a single
      * row with the following structure:
      *
+     * - avatar: array, optional, options for creating avatar content. Available options are:
+     *   - icon: string|array, optional, the options for the icon. See [[Html::icon()]]
+     *   - image: string|array, optional, the options for the avatar image. See [[Html::img()]]
+     *   - title: string, title for the item avatar. Value will be HTML-encoded.
+     *   - titleOptions: array the HTML attributes for the title tag.
      * - label: string, required, the item label.
      * - header: boolean, optional, whether this label should be formatted as header.
      * - encode: boolean, optional, whether this label should be HTML-encoded. This param will override
@@ -65,9 +70,6 @@ class Collection extends Widget
      *   - options: array, optional, the HTML attributes of the icon link.
      *     for more description.
      *   - url: array|string, optional, the URL for the icon. Defaults to "#".
-     * - avatarIcon: string|array, optional, the options for the icon. See [[Html::icon()]]
-     * - avatarImg: array|string, optional, the path to the avatar image.
-     * - avatarOptions: array, optional, the HTML attributes of the avatar image or icon tag.
      */
     public $items = [];
 
@@ -118,7 +120,7 @@ class Collection extends Widget
         foreach ($this->items as $item) {
             $rows[] = $this->renderItem($item);
         }
-        
+
         $containerTag = $this->asLinks ? 'div' : 'ul';
         $html = Html::beginTag($containerTag, $this->options);
         $html .= implode("\n", $rows);
@@ -139,9 +141,11 @@ class Collection extends Widget
         if (!array_key_exists('label', $item)) {
             throw new InvalidConfigException("The 'label' option is required.");
         } elseif (ArrayHelper::remove($item, 'visible', true)) {
+            $itemContent = null;
             $encodeLabel = isset($item['encode']) ? $item['encode'] : $this->encodeLabels;
             $label = $encodeLabel ? Html::encode($item['label']) : $item['label'];
             $isHeader = ArrayHelper::getValue($item, 'header', false);
+            $avatar = ArrayHelper::remove($item, 'avatar', []);
             $defaultUrl = $this->asLinks ? '#' : null;
             $url = ArrayHelper::getValue($item, 'url', $defaultUrl);
             $linkOptions = ArrayHelper::getValue($item, 'linkOptions', []);
@@ -155,11 +159,17 @@ class Collection extends Widget
                 Html::addCssClass($options, ['active' => 'active']);
             }
 
+            // Avatar
+            if (!empty($avatar) && !$isHeader) {
+                Html::addCssClass($options, ['avatar' => 'avatar']);
+                $itemContent .= $this->renderAvatar($avatar);
+            }
+
             // Main content
             if (!$this->asLinks && !empty($url)) {
-                $itemContent = Html::a($label, $url, $linkOptions);
+                $itemContent .= Html::a($label, $url, $linkOptions);
             } else {
-                $itemContent = $label;
+                $itemContent .= $label;
             }
 
             // Secondary content
@@ -174,6 +184,47 @@ class Collection extends Widget
 
             return $html;
         }
+    }
+
+    /**
+     * Renders single avatar image or icon as specified on [[avatar]].
+     *
+     * @param array $avatar single avatar item
+     * @param bool $isHeader whether this label should be formatted as header
+     * @return string the rendering result
+     *
+     * @throws InvalidConfigException.
+     * @see https://materializecss.com/collections.html#secondary
+     */
+    protected function renderAvatar($avatar)
+    {
+        $content = null;
+        $image = ArrayHelper::getValue($avatar, 'image', []);
+        $icon = ArrayHelper::getValue($avatar, 'icon', []);
+        $title = ArrayHelper::getValue($avatar, 'title', null);
+        $titleOptions = ArrayHelper::getValue($avatar, 'titleOptions', []);
+
+        // Avatar
+        if (!empty($image)) {
+            $url = is_string($image) ? $image : ArrayHelper::remove($image, 'url', '#');
+            $options = is_array($image) ? ArrayHelper::getValue($image, 'options', []) : [];
+            $options['class'] = isset($options['class']) ? $options['class'] : 'circle';
+            $content .= Html::img($url, $options);
+        } elseif (!empty($icon)) {
+            $name = is_string($icon) ? $icon : ArrayHelper::remove($icon, 'name', null);
+            $options = is_array($icon) ? ArrayHelper::getValue($icon, 'options', []) : [];
+            $options['class'] = isset($options['class']) ? $options['class'] : 'circle';
+            $content .= Html::icon($name, $options);
+        }
+
+        // Title
+        if (!empty($title)) {
+            $title = Html::encode($title);
+            Html::addCssClass($titleOptions, ['title' => 'title']);
+            $content .= Html::tag('span', $title, $titleOptions);
+        }
+
+        return $content;
     }
 
     /**
