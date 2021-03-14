@@ -155,10 +155,6 @@ class Collection extends Widget
             $secondaryItem = ArrayHelper::getValue($item, 'secondary', []);
             Html::addCssClass($options, ['item' => $containerClass]);
 
-            if ($isActive) {
-                Html::addCssClass($options, ['active' => 'active']);
-            }
-
             // Avatar
             if (!empty($avatar) && !$isHeader) {
                 Html::addCssClass($options, ['avatar' => 'avatar']);
@@ -176,11 +172,7 @@ class Collection extends Widget
             $itemContent .= $this->renderSecondary($secondaryItem, $isHeader);
 
             // Item container
-            if ($this->asLinks) {
-                $html = Html::a($itemContent, $url, $options);
-            } else {
-                $html = Html::tag('li', $itemContent, $options);
-            }
+            $html = $this->renderItemContainer($itemContent, $url, $options, $isActive);
 
             return $html;
         }
@@ -254,6 +246,30 @@ class Collection extends Widget
         }
 
         return $content;
+    }
+
+    /**
+     * Renders single container item and it's content
+     *
+     * @param string $content container content
+     * @param string $url url in case, if container will be link
+     * @param array $options array, optional, the HTML attributes of the container tag
+     * @param bool $isActive whether this item should be active
+     * @return string the rendering result
+     */
+    protected function renderItemContainer($content, $url, $options, $isActive)
+    {
+        if ($isActive) {
+            Html::addCssClass($options, ['active' => 'active']);
+        }
+
+        if ($this->asLinks) {
+            $html = Html::a($content, $url, $options);
+        } else {
+            $html = Html::tag('li', $content, $options);
+        }
+
+        return $html;
     }
 
     /**
