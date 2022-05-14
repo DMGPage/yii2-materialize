@@ -14,7 +14,7 @@ use yii\web\AssetBundle;
  */
 class MaterializePluginAsset extends AssetBundle
 {
-    public $sourcePath = '@bower/materialize/dist';
+    public $sourcePath = '@npm/materializecss--materialize/dist';
     public $js = [
         YII_ENV_DEV ? 'js/materialize.js' : 'js/materialize.min.js'
     ];
