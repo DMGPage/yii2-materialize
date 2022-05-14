@@ -12,6 +12,7 @@ use dmgpage\yii2materialize\helpers\Html;
 use yii\helpers\ArrayHelper;
 use yii\base\InvalidConfigException;
 use yii\helpers\Json;
+use yii\web\View;
 
 /**
  * MaterializeWidgetTrait is the trait, which provides basic for all Materialize widgets features.
@@ -53,6 +54,17 @@ trait MaterializeWidgetTrait
      * Please refer to the corresponding Materialize plugin Web page for possible events.
      * For example, [this page](https://materializecss.com/modals.html) shows
      * how to use the "Modal" plugin and the supported events.
+     *
+     * Keys are the event names and values are javascript code that is passed to the `.on()` function
+     * as the event handler.
+     *
+     * For example you could write the following in your widget configuration:
+     *
+     * ```php
+     * 'clientEvents' => [
+     *     'change' => 'function () { alert('event "change" occured.'); }'
+     * ],
+     * ```
      *
      * @see http://materializecss.com/
      */
@@ -100,7 +112,16 @@ trait MaterializeWidgetTrait
     protected function registerClientEvents()
     {
         if (!empty($this->clientEvents)) {
-            //...
+            /** @var View $view */
+            $view = $this->getView();
+            $id = $this->options['id'];
+            $js[] = "var elem_$id = document.getElementById('$id');";
+
+            foreach ($this->clientEvents as $event => $handler) {
+                $js[] = "elem_$id.addEventListener('$event', $handler);";
+            }
+
+            $view->registerJs(implode("\n", $js), View::POS_END);
         }
     }
 

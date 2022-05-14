@@ -40,3 +40,48 @@ $form = ActiveForm::begin(['id' => 'registration-form']);
 
 ActiveForm::end();
 ```
+## Autocomplete
+
+Autocomplete input, to suggest possible values.
+
+```php
+use dmgpage\yii2materialize\widgets\ActiveForm;
+use dmgpage\yii2materialize\helpers\Html;
+use dmgpage\yii2materialize\widgets\Autocomplete;
+
+$form = ActiveForm::begin(['id' => 'registration-form']);
+
+    echo Html::beginTag('div', ['class' => 'input-field']);
+        echo Autocomplete::widget([
+            'name' => 'autocomplete_input',
+            'clientOptions' => [
+                'data' => [
+                    'Apple' => null,
+                    'Microsoft' => null,
+                    'Google' => null,
+                    'Netflix' => null,
+                    'Tesla' => null
+                ]
+            ]
+        ]);
+    echo Html::endTag('div');
+
+    echo $form->field($model, 'autocomplete_input')
+        ->icon('textsms')
+        ->widget(
+            Autocomplete::class,
+            [
+                'clientOptions' => [
+                    'data' => [
+                        'Apple' => null,
+                        'Microsoft' => null,
+                        'Google' => null,
+                        'Netflix' => null,
+                        'Tesla' => null
+                    ]
+                ]
+            ]
+        );
+
+ActiveForm::end();
+```

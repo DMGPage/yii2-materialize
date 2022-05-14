@@ -8,7 +8,7 @@
 namespace dmgpage\yii2materialize\widgets;
 
 /**
- * Widget is the base class for all Materialize widgets.
+ * Widget is the base class for all non-input Materialize widgets.
  * @package widgets
  */
 class Widget extends \yii\base\Widget
