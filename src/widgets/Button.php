@@ -8,7 +8,6 @@
 namespace dmgpage\yii2materialize\widgets;
 
 use dmgpage\yii2materialize\helpers\Html;
-use yii\helpers\ArrayHelper;
 
 /**
  * Button renders a Materialize button.
