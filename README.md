@@ -67,6 +67,7 @@ Using Materialize through Yii asset manager allows you to minimize its resources
  8. [Card](https://github.com/DMGPage/yii2-materialize/blob/master/doc/card/README.md)
  9. [Tabs](https://github.com/DMGPage/yii2-materialize/blob/master/doc/tabs.md)
  10. [Collections](https://github.com/DMGPage/yii2-materialize/blob/master/doc/collections/README.md)
+ 11. [Forms](https://github.com/DMGPage/yii2-materialize/blob/master/doc/forms/README.md)
 
 ## License
 
