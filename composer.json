@@ -14,7 +14,7 @@
     "version": "0.0.1",
     "require": {
         "yiisoft/yii2": "~2.0",
-        "npm-asset/materializecss--materialize": "1.1.0",
+        "npm-asset/materializecss--materialize": "1.2.2",
         "marc-mabe/php-enum": "4.7.0"
     },
     "repositories": [
